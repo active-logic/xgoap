@@ -1,0 +1,16 @@
+Library
+Temp
+obj
+*.blend1
+*.csproj
+*.icloud
+*.sln
+*.sln.DotSettings.user
+*.userprefs
+Assets/csc.rsp
+
+Tests-*.xml
+Assets/Demos/Duelist/Packages
+log.txt
+log.txt.meta
+csc.rsp.meta
