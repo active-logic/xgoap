@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-/* Best first planner (cost value) */
+/* A* planner */
 public class ASPlanner : Planner{
 
     public string Eval<T>(T x, Func<T, bool> goal,
