@@ -1,15 +1,12 @@
 using System;
 using System.Collections.Generic;
 
-public class Planner{
+public class BrPlanner : Planner{
 
     public string Eval<T>(T x, Func<T, bool> goal) where T: Agent{
-        var avail = new List<T>();
-        avail.Add(x);
-        while(avail.Count > 0){
-            var current = avail[0];
-            avail.RemoveAt(0);
-            var result = Expand(current, avail, goal);
+        var avail = new List<T>(){ x };
+        while(avail.Count > 0 && avail.Count < limit){
+            var result = Expand(Pop(avail), avail, goal);
             if(result != null) return result.ToString();
         }
         return null;
@@ -21,11 +18,9 @@ public class Planner{
             var y = Clone(x);
             if(y.actions[i]()){
                 if(goal(y)) return y;
-                @out.Add(y);
+                @out.Insert(0, y);
             }
         } return null;
     }
-
-    internal static T Clone<T>(T x) => CloneUtil.DeepClone(x);
 
 }

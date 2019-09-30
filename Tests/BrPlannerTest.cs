@@ -3,16 +3,16 @@ using UnityEngine;
 
 public class PlannerTest : TestBase{
 
-    Planner x;
+    BrPlanner x;
 
     [SetUp] public void Setup(){
-        x = new Planner();
+        x = new BrPlanner();
     }
 
     [Test] public void Clone(){
         var e = new Eradicator();
         var n = e.rats;
-        var e1 = Planner.Clone(e);
+        var e1 = BrPlanner.Clone(e);
         e.rats = -1;
         o( n != -1);
         o( e1.rats, n );
