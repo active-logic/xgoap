@@ -20,10 +20,7 @@ public class Eradicator : Agent{
         return true;
     }
 
-    public bool Wipeout(){
-        return false;
-        cost += baseCost;
-    }
+    public bool Wipeout() => false;
 
     Func<bool>[] Agent.actions
     => new Func<bool>[]{Eradicate, Dawdle, Wipeout};
