@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using UnityEngine;
 
-public class PlannerTest : TestBase{
+public class BrPlannerTest : TestBase{
 
     BrPlanner x;
 

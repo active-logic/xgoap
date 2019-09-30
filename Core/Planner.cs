@@ -2,7 +2,8 @@ using System.Collections.Generic;
 
 public class Planner{
 
-    protected int limit = 1000;
+    public int maxNodes = 1000;
+    public int maxIter  = 1000;
 
     internal static T Clone<T>(T x) => CloneUtil.DeepClone(x);
 

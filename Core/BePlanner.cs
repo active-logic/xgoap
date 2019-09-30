@@ -6,7 +6,7 @@ public class BePlanner : Planner{
 
     public string Eval<T>(T x, Func<T, bool> goal) where T: Agent{
         var avail = new List<T>(){ x };
-        while(avail.Count > 0 && avail.Count < limit){
+        while(avail.Count > 0 && avail.Count < maxNodes){
             var result = Expand(Pop(avail), avail, goal);
             if(result != null) return result.ToString();
         }
