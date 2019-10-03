@@ -1,0 +1,21 @@
+{
+  "name": "com.activ.goap",
+  "version": "0.2.1",
+  "displayName": "xGOAP",
+  "description": "Goal Oriented Action Planning (x)",
+  "unity": "2018.4",
+  "keywords": [
+    "ai",
+    "planning",
+    "planner"
+  ],
+  "author": {
+    "name": "T.E.A de Souza",
+    "email": "active.behaviours@gmail.com",
+    "url": "https://github.com/active-logic"
+  },
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/active-logic/xgoap.git"
+  }
+}

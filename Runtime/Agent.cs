@@ -6,6 +6,4 @@ public interface Agent{
 
     float cost { get; }
 
-    float est  { get; set; }
-
 }

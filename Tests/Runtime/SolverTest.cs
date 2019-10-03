@@ -2,12 +2,12 @@ using NUnit.Framework;
 using UnityEngine;
 using NullRef = System.NullReferenceException;
 
-public class ASPlannerTest : TestBase{
+public class SolverTest : TestBase{
 
-    ASPlanner x;
+    Solver x;
 
     [SetUp] public void Setup(){
-        x = new ASPlanner();
+        x = new Solver();
         x.maxIter = x.maxNodes = 100;
     }
 
@@ -18,39 +18,39 @@ public class ASPlannerTest : TestBase{
     => Assert.Throws<NullRef>( () => x.Eval( new Idler(), null) );
 
     [Test] public void IdlePassThrough()
-    => o ( x.Eval(new Idler(), goal: x => true), null );
+    => o ( x.Eval(new Idler(), goal: x => true), Solver.INIT );
 
     [Test] public void HeuristicIdlePassThrough()
-    => o ( x.Eval(new Idler(), goal: x => true, h: x => 0f), null );
+    => o ( x.Eval(new Idler(), goal: x => true, h: x => 0f),
+           Solver.INIT );
 
     // TODO doesn't look right. First off, returned func should be
     // OneTrick, secondly if goal is always fulfilled no action is
     // needed
     [Test] public void OTPoneyPassThrough()
-    => o( x.Eval(new OTPoney(), goal: x => true),
-          "OTPoney" );
+    => o( x.Eval(new OTPoney(), goal: x => true), Solver.INIT );
 
     // TODO see above
     [Test] public void HeuristicOTPoneyPassThrough()
     => o( x.Eval(new OTPoney(), goal: x => true, h: x => 0f),
-          "OTPoney" );
+          Solver.INIT );
 
     [Test] public void UseHeuristic(){
         bool h = false;
-        x.Eval(new OTPoney(), x => false,
+        x.Eval(new Inc(), x => false,
                h: x => { h = true; return 0f; });
         o( h, true );
     }
 
     [Test] public void IgnoreHeuristic(){
         bool h = false; x.brfs = true;
-        x.Eval(new OTPoney(), x => false,
+        x.Eval(new Inc(), x => false,
                h: x => { h = true; return 0f; });
         o( h, false );
     }
 
-    [Test] public void DisallowZeroCost(){
-        
+    [Test] public void RemoveRedundantStates(){
+        x.Eval(new TikTok(), x => false);
     }
 
 }
