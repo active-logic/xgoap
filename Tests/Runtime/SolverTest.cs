@@ -4,10 +4,10 @@ using NullRef = System.NullReferenceException;
 
 public class SolverTest : TestBase{
 
-    Solver x;
+    Solver<Agent> x;
 
     [SetUp] public void Setup(){
-        x = new Solver();
+        x = new Solver<Agent>();
         x.maxIter = x.maxNodes = 100;
     }
 
@@ -18,22 +18,22 @@ public class SolverTest : TestBase{
     => Assert.Throws<NullRef>( () => x.Eval( new Idler(), null) );
 
     [Test] public void IdlePassThrough()
-    => o ( x.Eval(new Idler(), goal: x => true), Solver.INIT );
+    => o ( x.Eval(new Idler(), goal: x => true), Solver<Agent>.INIT );
 
     [Test] public void HeuristicIdlePassThrough()
     => o ( x.Eval(new Idler(), goal: x => true, h: x => 0f),
-           Solver.INIT );
+           Solver<Agent>.INIT );
 
     // TODO doesn't look right. First off, returned func should be
     // OneTrick, secondly if goal is always fulfilled no action is
     // needed
     [Test] public void OTPoneyPassThrough()
-    => o( x.Eval(new OTPoney(), goal: x => true), Solver.INIT );
+    => o( x.Eval(new OTPoney(), goal: x => true), Solver<Agent>.INIT );
 
     // TODO see above
     [Test] public void HeuristicOTPoneyPassThrough()
     => o( x.Eval(new OTPoney(), goal: x => true, h: x => 0f),
-          Solver.INIT );
+          Solver<Agent>.INIT );
 
     [Test] public void UseHeuristic(){
         bool h = false;

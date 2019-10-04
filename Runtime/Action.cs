@@ -1,8 +1,13 @@
 using System;
 
-public class Action<T>{
+public readonly struct Action{
 
-    Func<bool> action;
-    T          effect;
+    public readonly Func<bool> action;
+    public readonly object     effect;
+
+    public Action(Func<bool> method, object effect){
+        this.action = method;
+        this.effect = effect;
+    }
 
 }

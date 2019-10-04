@@ -34,7 +34,7 @@ public class NodeSetTest : TestBase{
 
     [Test] public void Pop(){
         var z = x.Pop(); o( x.count, 0 ); o( z.state is Idler );
-        o( z.action, Solver.INIT);
+        o( z.action, Solver<Agent>.INIT);
     }
 
 }

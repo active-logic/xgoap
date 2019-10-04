@@ -8,8 +8,8 @@ public interface Agent{
 
 }
 
-public interface Parametric<T>{
+public interface Parametric{
 
-    Action<T>[] methods{ get; }
+    Action[] methods{ get; }
 
 }

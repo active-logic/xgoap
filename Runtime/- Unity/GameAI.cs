@@ -8,10 +8,11 @@ a public, no-arg function call supported by at least
 one component.
 3 - When an action starts/ends set busy = true/false
 */
-public abstract class GameAI<T> : MonoBehaviour where T : Agent{
+public abstract class GameAI<T> : MonoBehaviour
+                                     where T : Agent{
 
     public bool busy;
-    Solver solver;
+    Solver<T> solver;
 
     // Decide a goal and (optionally) a heuristic
     protected abstract Goal<T> Goal();
@@ -20,13 +21,14 @@ public abstract class GameAI<T> : MonoBehaviour where T : Agent{
     protected abstract T Model();
 
     // Action mapping may be overriden
-    protected virtual void Effect(string action)
-    => SendMessage(action);
+    // TODO - handle other action type
+    protected virtual void Effect(object action)
+    => SendMessage(action.ToString());
 
     void Update(){
         if(busy) return;
-        solver = solver ?? new Solver();
-        Effect(solver.Eval<T>(Model(), Goal()));
+        solver = solver ?? new Solver<T>();
+        Effect(solver.Eval(Model(), Goal()));
         busy = true;
     }
 
