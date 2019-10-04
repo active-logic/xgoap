@@ -7,3 +7,9 @@ public interface Agent{
     float cost { get; }
 
 }
+
+public interface Parametric<T>{
+
+    Action<T>[] methods{ get; }
+
+}
