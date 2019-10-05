@@ -1,8 +1,8 @@
-# Extended GOAP planner
+# Beyond G.O.A.P
 
-Concise, adaptive GOAP (goal oriented action planning).
+UPM package offering a fresh take on [Goal oriented action planning](http://alumni.media.mit.edu/~jorkin/goap.html).
 
-xGOAP is an object oriented planner. An action is a function of the model.
+In GOAP, actions have preconditions, effects, and a cost. Boilerplate? Have a look.
 
 ```cs
 public bool ChopLog(){
@@ -15,18 +15,13 @@ public bool ChopLog(){
 
 Use A\* or, if no cost function available, BFS.
 
-Engine agnostic - unit test without pain.
+Engine agnostic - Unit test without pain (for now you'll need to delete a few files since there *is* a Unity integration).
 
-# Getting started
+# Getting started [REVIEW]
 
-For planning you need a model (Agent), a goal and, if available a heuristic. I will use Brent Owens' wood chopper agent as an example.
+For planning you need a model (Agent), a goal and, if available, a heuristic. I will borrow Brent Owens' wood chopper agent as an example.
 
-In GOAP an agent uses actions to update its model; each action has:
-- Preconditions, used to decide whether the action can be performed.
-- Effects, which determine the result(s) of an action
-- A cost
-
-In Owens example, a wood chopper has the *GetAxe*, *ChopLog* and *CollectBranches* actions. Here is the complete wood chopper model
+In Owens example, a wood chopper has the *GetAxe*, *ChopLog* and *CollectBranches* actions. Here's our version of the wood chopper model
 
 ```cs
 [System.Serializable]
