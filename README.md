@@ -17,7 +17,7 @@ Use A\* or, if no cost function available, BFS.
 
 Engine agnostic - Unit test without pain (for now you'll need to delete a few files since there *is* a Unity integration).
 
-# Getting started
+## Getting started
 
 For planning you need a model (Agent), a goal and, if available, a heuristic. I will use [Brent Owens' woodcutter](https://gamedevelopment.tutsplus.com/tutorials/goal-oriented-action-planning-for-a-smarter-ai--cms-20793) agent as an example.
 
@@ -78,7 +78,7 @@ Run the model and get the next planned action:
 ```cs
 var chopper = new WoodChopper();
 var solver = new Solver<WoodChopper>();
-var next = (string)plan.Eval(chopper, x => x.hasFirewood);
+var next = (string)solver.Next(chopper, x => x.hasFirewood);
 ```
 
 In this example, `next` is a string because the action set consists in no-arg actions. Parametric actions are supported; they are concise and type safe. Check the [Baker](Tests/Models/Baker.cs) example.
@@ -86,3 +86,10 @@ In this example, `next` is a string because the action set consists in no-arg ac
 The goal argument (here, `x => x.hasFirewood`) returns a `bool` to indicate whether the goal has been reached.
 
 Quick and simple Unity integration via [GameAI.cs](Runtime/Unity/GameAI.cs)
+
+## Getting involved
+
+If you'd like to get involved, consider opening (or fixing) an issue.
+Your support is appreciated!
+
+<a href='https://ko-fi.com/A0114I97' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=2' border='0' alt='Send a tip' /></a>

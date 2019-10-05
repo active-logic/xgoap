@@ -38,7 +38,7 @@ public class Z_Baker : TestBase{
     [Test] public void Test(){
         var x = new Baker();
         var p = new Solver<Baker>();
-        var s = p.Eval(x, z => z.state == Baker.Cooking.Cooked);
+        var s = p.Next(x, z => z.state == Baker.Cooking.Cooked);
         o( s is System.Delegate );
     }
 

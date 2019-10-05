@@ -29,11 +29,11 @@ public class Solver<T> where T : Agent{
         return null;
     }
 
-    public object Eval(T x, Func<T, bool> goal,
+    public object Next(T x, Func<T, bool> goal,
                             Func<T, float> h = null)
-    => Eval(x, new Goal<T>(goal, h));
+    => Next(x, new Goal<T>(goal, h));
 
-    public object Eval(T x, in Goal<T> g) {
+    public object Next(T x, in Goal<T> g) {
         if(x == null) throw new NullRef("Agent is null");
         var avail = new NodeSet<T>(x, g.h, !brfs, maxNodes);
         int i = 0;

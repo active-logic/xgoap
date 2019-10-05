@@ -36,7 +36,7 @@ public abstract class GameAI<T> : MonoBehaviour where T : Agent{
     void Update(){
         if(busy) return;
         solver = solver ?? new Solver<T>();
-        Effect(solver.Eval(Model(), Goal()));
+        Effect(solver.Next(Model(), Goal()));
     }
 
     void log(object arg){ if(verbose) print(arg); }
