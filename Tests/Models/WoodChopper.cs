@@ -8,6 +8,10 @@ public class WoodChopper : Agent{
 
     public float cost { get; set; }
 
+    public Func<bool>[] actions => new Func<bool>[]{
+        ChopLog, GetAxe, CollectBranches
+    };
+
     public bool GetAxe(){
         if(hasAxe) return false;
         cost += 2;
@@ -25,13 +29,6 @@ public class WoodChopper : Agent{
         return hasFirewood = true;
     }
 
-    public Func<bool>[] actions => new Func<bool>[]{
-        ChopLog, GetAxe, CollectBranches
-    };
-
-    override public int GetHashCode()
-    => (hasAxe ? 1 : 0) + (hasFirewood ? 2 : 0);
-
     override public bool Equals(object other){
         if(other == null) return false;
         if(other is WoodChopper that){
@@ -40,6 +37,10 @@ public class WoodChopper : Agent{
         } else return false;
     }
 
+    override public int GetHashCode()
+    => (hasAxe ? 1 : 0) + (hasFirewood ? 2 : 0);
+
     override public string ToString()
     => $"WoodChopper[axe:{hasAxe} f.wood:{hasFirewood} ]";
+
 }

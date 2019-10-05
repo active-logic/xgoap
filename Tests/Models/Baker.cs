@@ -35,8 +35,7 @@ public class Baker : Agent, Parametric{
     }
 
     Func<bool>[] Agent.actions
-    => state != Cooking.Burned ? new Func<bool>[]{ Bake }
-                               : null;
+    => state != Cooking.Burned ? new Func<bool>[]{ Bake } : null;
 
     Action[] Parametric.methods
     => state != Cooking.Burned ? CookingOptions() : null;

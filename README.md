@@ -17,20 +17,25 @@ Use A\* or, if no cost function available, BFS.
 
 Engine agnostic - Unit test without pain (for now you'll need to delete a few files since there *is* a Unity integration).
 
-# Getting started [REVIEW]
+# Getting started
 
-For planning you need a model (Agent), a goal and, if available, a heuristic. I will borrow Brent Owens' wood chopper agent as an example.
+For planning you need a model (Agent), a goal and, if available, a heuristic. I will use [Brent Owens' woodcutter](https://gamedevelopment.tutsplus.com/tutorials/goal-oriented-action-planning-for-a-smarter-ai--cms-20793) agent as an example.
 
-In Owens example, a wood chopper has the *GetAxe*, *ChopLog* and *CollectBranches* actions. Here's our version of the wood chopper model
+In this case, a woodcutter has the *GetAxe*, *ChopLog* and *CollectBranches* actions. Here's our version of the wood chopper model
 
 ```cs
-[System.Serializable]
+[Serializable]  // Helps cloning model state
 public class WoodChopper : Agent{
 
     public bool hasAxe = false;
     public bool hasFirewood = false;
 
     public float cost { get; set; }
+
+    // Available actions may change as the model is modified
+    public Func<bool>[] actions => new Func<bool>[]{
+        ChopLog, GetAxe, CollectBranches
+    };
 
     public bool GetAxe(){
         if(hasAxe) return false;
@@ -49,20 +54,35 @@ public class WoodChopper : Agent{
         return hasFirewood = true;
     }
 
-    public Func<bool>[] actions => new Func<bool>[]{
-        ChopLog, GetAxe, CollectBranches
-    };
+    // Needed to avoid reentering previously visited states while searching
+    override public bool Equals(object other){
+        if(other == null) return false;
+        if(other is WoodChopper that){
+            return this.hasAxe == that.hasAxe
+                && this.hasFirewood == that.hasFirewood;
+        } else return false;
+    }
+
+    // Helps quickly finding duplicate states
+    override public int GetHashCode()
+    => (hasAxe ? 1 : 0) + (hasFirewood ? 2 : 0);
 
     override public string ToString()
     => $"WoodChopper[axe:{hasAxe} f.wood:{hasFirewood} ]";
+
 }
 ```
 
-Let's run the model and get the next planned action:
+Run the model and get the next planned action:
 
 ```cs
-var chopper = new WoodChooper();
-var plan = new Planner().Eval(chopper, x => x.hasFirewood);
+var chopper = new WoodChopper();
+var solver = new Solver<WoodChopper>();
+var next = (string)plan.Eval(chopper, x => x.hasFirewood);
 ```
 
-The goal argument (here, `x => x.hasFirewood`) is just a function or lambda returning a bool to indicate whether the goal has been reached (true) or not (false).
+In this example, `next` is a string because the action set consists in no-arg actions. Parametric actions are supported; they are concise and type safe. Check the [Baker](Tests/Models/Baker.cs) example.
+
+The goal argument (here, `x => x.hasFirewood`) returns a `bool` to indicate whether the goal has been reached.
+
+Quick and simple Unity integration via [GameAI.cs](Runtime/Unity/GameAI.cs)
