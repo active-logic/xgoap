@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 
+namespace Activ.GOAP{
 public class NodeSet<T> : Base where T : Agent{
 
     internal bool sorted;
@@ -39,4 +40,4 @@ public class NodeSet<T> : Base where T : Agent{
         return n;
     }
 
-}
+}}

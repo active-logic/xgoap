@@ -1,8 +1,8 @@
 using System;
 
 /* A one trick poney that can actually trot */
-[Serializable]
-public class Inc : Agent{
+namespace Activ.GOAP{
+[Serializable] public class Inc : Agent{
 
     public float cost { get; set; }
     public int pos;
@@ -23,4 +23,4 @@ public class Inc : Agent{
         return false;
     }
 
-}
+}}

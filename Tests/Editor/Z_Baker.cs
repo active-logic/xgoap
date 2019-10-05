@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using UnityEngine;
 
+namespace Activ.GOAP{
 public class Z_Baker : TestBase{
 
     [Test] public void Solvability(){
@@ -44,4 +45,4 @@ public class Z_Baker : TestBase{
 
     bool Goal(Baker x) => x.state == Baker.Cooking.Cooked;
 
-}
+}}

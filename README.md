@@ -24,6 +24,8 @@ For planning you need a model (Agent), a goal and, if available, a heuristic. I 
 In this case, a woodcutter has the *GetAxe*, *ChopLog* and *CollectBranches* actions. Here's our version of the wood chopper model
 
 ```cs
+using Activ.GOAP;
+
 [Serializable]  // Helps cloning model state
 public class WoodChopper : Agent{
 
@@ -85,7 +87,7 @@ In this example, `next` is a string because the action set consists in no-arg ac
 
 The goal argument (here, `x => x.hasFirewood`) returns a `bool` to indicate whether the goal has been reached.
 
-Quick and simple Unity integration via [GameAI.cs](Runtime/Unity/GameAI.cs)
+Quick and simple Unity integration via [GameAI.cs](Runtime/Unity/GameAI.cs) - check here for a [quick example](Documentation/BakerUnity.md).
 
 ## Getting involved
 

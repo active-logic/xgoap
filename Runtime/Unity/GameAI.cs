@@ -1,13 +1,14 @@
 using UnityEngine;
 
 /*
-To use this class:
+How-to:
 1 - Implement the Goal() and Model() methods
 2 - Each action returned by the solver should match
 a public, no-arg function call supported by at least
 one component.
 3 - When an action starts/ends set busy = true/false
 */
+namespace Activ.GOAP{
 public abstract class GameAI<T> : MonoBehaviour where T : Agent{
 
     public bool verbose = true;
@@ -41,4 +42,4 @@ public abstract class GameAI<T> : MonoBehaviour where T : Agent{
 
     void log(object arg){ if(verbose) print(arg); }
 
-}
+}}

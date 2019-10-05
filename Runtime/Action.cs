@@ -1,5 +1,6 @@
 using System;
 
+namespace Activ.GOAP{
 public readonly struct Action{
 
     public readonly Func<bool> action;
@@ -10,4 +11,4 @@ public readonly struct Action{
         this.effect = effect;
     }
 
-}
+}}

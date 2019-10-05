@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System.Runtime.Serialization;
 
+namespace Activ.GOAP{
 public class CloneTest : TestBase{
 
     [Test] public void DeepClone()
@@ -12,4 +13,4 @@ public class CloneTest : TestBase{
 
     class NotSerializable{}
 
-}
+}}

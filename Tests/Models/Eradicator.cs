@@ -1,7 +1,7 @@
 using System;
 
-[Serializable]
-public class Eradicator : Agent{
+namespace Activ.GOAP{
+[Serializable] public class Eradicator : Agent{
 
     public float baseCost = 1;
     public float cost { get; set; }
@@ -35,4 +35,4 @@ public class Eradicator : Agent{
     override public string ToString()
     => $"Eradicator[rats:{rats} ]";
 
-}
+}}

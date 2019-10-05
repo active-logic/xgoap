@@ -2,6 +2,7 @@ using NUnit.Framework;
 using UnityEngine;
 using NullRef = System.NullReferenceException;
 
+namespace Activ.GOAP{
 public class SolverTest : TestBase{
 
     Solver<Agent> x;
@@ -53,4 +54,4 @@ public class SolverTest : TestBase{
         x.Next(new TikTok(), x => false);
     }
 
-}
+}}

@@ -1,8 +1,8 @@
 using System;
 
 /* The proverbial one trick poney */
-[Serializable]
-public class OTPoney : Agent{
+namespace Activ.GOAP{
+[Serializable] public class OTPoney : Agent{
 
     public float cost { get; set; }
 
@@ -15,5 +15,4 @@ public class OTPoney : Agent{
 
     override public int GetHashCode() => 0;
 
-
-}
+}}

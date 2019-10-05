@@ -1,7 +1,7 @@
 using System;
 
-[Serializable]
-public class TikTok : Agent{
+namespace Activ.GOAP{
+[Serializable] public class TikTok : Agent{
 
     public float cost { get; set; }
 
@@ -16,5 +16,4 @@ public class TikTok : Agent{
 
     override public int GetHashCode() => 0;
 
-
-}
+}}

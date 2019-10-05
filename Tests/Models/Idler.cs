@@ -1,7 +1,7 @@
 using System;
 
-[Serializable]
-public class Idler : Agent{
+namespace Activ.GOAP{
+[Serializable] public class Idler : Agent{
 
     public float cost { get; set; }
 
@@ -12,4 +12,4 @@ public class Idler : Agent{
 
     override public int GetHashCode() => 0;
 
-}
+}}

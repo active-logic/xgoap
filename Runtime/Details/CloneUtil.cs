@@ -1,6 +1,7 @@
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
+namespace Activ.GOAP{
 public static class CloneUtil{
 
     public static T DeepClone<T>(T obj){
@@ -12,4 +13,4 @@ public static class CloneUtil{
         }
     }
 
-}
+}}

@@ -1,5 +1,6 @@
 using System; using NUnit.Framework;
 
+namespace Activ.GOAP{
 public class NodeSetTest : TestBase{
 
     NodeSet<Agent> x;
@@ -37,4 +38,4 @@ public class NodeSetTest : TestBase{
         o( z.action, State.Init);
     }
 
-}
+}}

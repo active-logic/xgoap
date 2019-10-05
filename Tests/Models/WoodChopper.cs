@@ -1,7 +1,7 @@
 using System;
 
-[Serializable]
-public class WoodChopper : Agent{
+namespace Activ.GOAP{
+[Serializable] public class WoodChopper : Agent{
 
     public bool hasAxe = false;
     public bool hasFirewood = false;
@@ -43,4 +43,4 @@ public class WoodChopper : Agent{
     override public string ToString()
     => $"WoodChopper[axe:{hasAxe} f.wood:{hasFirewood} ]";
 
-}
+}}

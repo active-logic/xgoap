@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public class Baker : Agent, Parametric{
+namespace Activ.GOAP{
+[Serializable] public class Baker : Agent, Parametric{
 
     public const int Step    = 55;
     public const int MaxHeat = 200;
@@ -71,4 +71,4 @@ public class Baker : Agent, Parametric{
         void SetTemperature(int i);
     }
 
-}
+}}

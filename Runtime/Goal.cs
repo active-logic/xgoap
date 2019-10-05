@@ -1,6 +1,7 @@
 using System;
 using NullRef = System.NullReferenceException;
 
+namespace Activ.GOAP{
 public readonly struct Goal<T>{
 
     public readonly Func<T, bool>  goal;
@@ -12,4 +13,4 @@ public readonly struct Goal<T>{
         this.h    = h;
     }
 
-}
+}}

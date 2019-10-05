@@ -2,6 +2,7 @@ using System;
 using NUnit.Framework;
 using NullRef = System.NullReferenceException;
 
+namespace Activ.GOAP{
 public class NodeTest : TestBase{
 
     const string ACTION_1 = "Test";
@@ -74,4 +75,4 @@ public class NodeTest : TestBase{
         o( x.ToString(), "[0 :: %init => object]" );
     }
 
-}
+}}

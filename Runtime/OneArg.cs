@@ -1,3 +1,5 @@
+
+namespace Activ.GOAP{
 public readonly struct OneArg{
 
     public readonly string name;
@@ -10,4 +12,4 @@ public readonly struct OneArg{
 
     override public string ToString()=> $"{name}({arg})";
 
-}
+}}

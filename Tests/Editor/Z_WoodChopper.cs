@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using UnityEngine;
 
+namespace Activ.GOAP{
 public class Z_WoodChopper : TestBase{
 
     [Test] public void Test(){
@@ -10,4 +11,4 @@ public class Z_WoodChopper : TestBase{
         o(action, "GetAxe");
     }
 
-}
+}}

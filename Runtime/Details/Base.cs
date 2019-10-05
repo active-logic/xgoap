@@ -1,5 +1,6 @@
 using System;
 
+namespace Activ.GOAP{
 public class Base{
 
     protected T Assert<T>(T arg, string name){
@@ -8,4 +9,4 @@ public class Base{
         return arg;
     }
 
-}
+}}

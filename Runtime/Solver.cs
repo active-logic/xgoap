@@ -2,8 +2,9 @@ using System;
 using NullRef = System.NullReferenceException;
 using Ex      = System.Exception;
 using UnityEngine;
-using static State;
+using static Activ.GOAP.State;
 
+namespace Activ.GOAP{
 public class Solver<T> where T : Agent{
 
     const string ZERO_COST_ERR = "Zero cost op is not allowed";
@@ -76,4 +77,4 @@ public class Solver<T> where T : Agent{
 
     internal static T Clone(T x) => CloneUtil.DeepClone(x);
 
-}
+}}

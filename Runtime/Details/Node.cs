@@ -1,3 +1,4 @@
+namespace Activ.GOAP{
 public class Node<T> : Base{
 
     public readonly Node<T> prev;
@@ -30,4 +31,4 @@ public class Node<T> : Base{
     => $"[{value} :: {action} => {state}]"
                                 .Replace("System.Object", "object");
 
-}
+}}

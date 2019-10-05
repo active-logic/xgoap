@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System.Runtime.Serialization;
 
+namespace Activ.GOAP{
 public class EqTest : TestBase{
 
     [Test] public void TikTokEqTest(){
@@ -9,4 +10,4 @@ public class EqTest : TestBase{
         o( a.Equals(b) );
     }
 
-}
+}}
