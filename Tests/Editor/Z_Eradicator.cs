@@ -15,7 +15,7 @@ public class Z_Eradicator : TestBase{
         var p = new Solver<Eradicator>();
         p.maxIter = 10;
         var s = p.Eval(x, z => z.rats == -1);
-        o( s, Solver<Eradicator>.NOT_FOUND);
+        o( s, State.NotFound);
     }
 
 }

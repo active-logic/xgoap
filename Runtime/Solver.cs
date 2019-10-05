@@ -2,14 +2,13 @@ using System;
 using NullRef = System.NullReferenceException;
 using Ex      = System.Exception;
 using UnityEngine;
+using static State;
 
 public class Solver<T> where T : Agent{
 
     const string ZERO_COST_ERR = "Zero cost op is not allowed";
     public int maxNodes = 1000;
     public int maxIter  = 1000;
-
-    public const string INIT = "%init", NOT_FOUND = "%not_found";
 
     public bool brfs = false;
 
@@ -44,7 +43,7 @@ public class Solver<T> where T : Agent{
             ExpandActions(current, avail);
             ExpandMethods(current, avail);
         }
-        return NOT_FOUND;
+        return State.NotFound;
     }
 
     void ExpandActions(Node<T> x, NodeSet<T> @out){

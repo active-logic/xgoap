@@ -8,9 +8,9 @@ a public, no-arg function call supported by at least
 one component.
 3 - When an action starts/ends set busy = true/false
 */
-public abstract class GameAI<T> : MonoBehaviour
-                                     where T : Agent{
+public abstract class GameAI<T> : MonoBehaviour where T : Agent{
 
+    public bool verbose = true;
     public bool busy;
     Solver<T> solver;
 
@@ -21,15 +21,24 @@ public abstract class GameAI<T> : MonoBehaviour
     protected abstract T Model();
 
     // Action mapping may be overriden
-    // TODO - handle other action type
-    protected virtual void Effect(object action)
-    => SendMessage(action.ToString());
+    protected virtual void Effect(object action){
+        if(action as string == State.Init) return;
+        var t = Time.frameCount;
+        if(action is OneArg method){
+            log($"1-arg message: {method} at frame {t}");
+            SendMessage(method.name, method.arg);
+        }else{
+            log($"No-arg message: {(string)action} at frame {t}");
+            SendMessage(action.ToString());
+        }
+    }
 
     void Update(){
         if(busy) return;
         solver = solver ?? new Solver<T>();
         Effect(solver.Eval(Model(), Goal()));
-        busy = true;
     }
+
+    void log(object arg){ if(verbose) print(arg); }
 
 }
