@@ -24,9 +24,9 @@ public abstract class GameAI<T> : MonoBehaviour where T : Agent{
     protected virtual void Effect(object action){
         if(action as string == State.Init) return;
         var t = Time.frameCount;
-        if(action is OneArg method){
-            log($"1-arg message: {method} at frame {t}");
-            SendMessage(method.name, method.arg);
+        if(action is System.Action method){
+            log($"Delegate: {method.Method.Name} at frame {t}");
+            method();
         }else{
             log($"No-arg message: {(string)action} at frame {t}");
             SendMessage(action.ToString());
