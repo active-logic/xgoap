@@ -1,5 +1,4 @@
 using NUnit.Framework;
-using UnityEngine;
 
 namespace Activ.GOAP{
 public class Z_Eradicator : TestBase{

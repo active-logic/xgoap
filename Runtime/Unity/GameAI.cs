@@ -1,3 +1,5 @@
+#if UNITY_2018_1_OR_NEWER
+
 using UnityEngine;
 
 /*
@@ -43,3 +45,5 @@ public abstract class GameAI<T> : MonoBehaviour where T : Agent{
     void log(object arg){ if(verbose) print(arg); }
 
 }}
+
+#endif  // UNITY_2018_1_OR_NEWER

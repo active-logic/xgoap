@@ -14,3 +14,5 @@ Assets/Demos/Duelist/Packages
 log.txt
 log.txt.meta
 csc.rsp.meta
+Runtime/bin
+Tests/bin

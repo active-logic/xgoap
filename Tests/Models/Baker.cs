@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Activ.GOAP{
 [Serializable] public class Baker : Agent, Parametric{
