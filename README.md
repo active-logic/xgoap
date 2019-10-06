@@ -18,6 +18,7 @@ Use A\* or, if no cost function available, BFS.
 - Engine agnostic models - test without pain.
 - .NET Core compatible
 - Unity integration with UPM support
+- \[COMING SOON] integration with the BT Framework of Awesome, [Active Logic](https://github.com/active-logic/activelogic-cs) 🚀
 
 **Pre-release** - *First release planned: Nov. 2019; APIs are more likely to change during the pre-release period.*
 
