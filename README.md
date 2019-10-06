@@ -1,6 +1,6 @@
 # Beyond G.O.A.P
 
-UPM package offering a fresh take on [Goal oriented action planning](http://alumni.media.mit.edu/~jorkin/goap.html).
+A fresh take on [Goal oriented action planning](http://alumni.media.mit.edu/~jorkin/goap.html).
 
 In GOAP, actions have preconditions, effects, and a cost. Boilerplate? Have a look.
 
@@ -15,7 +15,11 @@ public bool ChopLog(){
 
 Use A\* or, if no cost function available, BFS.
 
-Engine agnostic - Unit test without pain (for now you'll need to delete a few files since there *is* a Unity integration).
+- Engine agnostic models - Unit test without pain.
+- .NET Core compatibility
+- Unity integration
+
+[![Build Status](https://travis-ci.com/active-logic/xgoap.svg?branch=master)](https://travis-ci.com/active-logic/xgoap)
 
 ## Getting started
 
