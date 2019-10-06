@@ -1,0 +1,9 @@
+language: csharp
+solution: main.csproj
+dotnet: 2.2.401
+mono: none
+before_script:
+    - ./test.sh
+script:
+    - dotnet test -c Release -p:DefineConstants=$defs
+    - dotnet test -c Debug -p:DefineConstants=$defs

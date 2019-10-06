@@ -1,7 +1,6 @@
 using System;
 using NullRef = System.NullReferenceException;
 using Ex      = System.Exception;
-using UnityEngine;
 using static Activ.GOAP.State;
 
 namespace Activ.GOAP{
