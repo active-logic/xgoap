@@ -15,9 +15,11 @@ public bool ChopLog(){
 
 Use A\* or, if no cost function available, BFS.
 
-- Engine agnostic models - Unit test without pain.
-- .NET Core compatibility
-- Unity integration
+- Engine agnostic models - test without pain.
+- .NET Core compatible
+- Unity integration with UPM support
+
+**Pre-release** - *First release planned: Nov. 2019; APIs are more likely to change during the pre-release period.*
 
 [![Build Status](https://travis-ci.com/active-logic/xgoap.svg?branch=master)](https://travis-ci.com/active-logic/xgoap)
 
