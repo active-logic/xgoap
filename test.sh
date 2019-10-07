@@ -10,6 +10,13 @@ if [ "$#" -eq  "0" ]
    then
      exit 0
  else
-     dotnet test -c Release -p:DefineConstants=DOTNET_CORE
-     dotnet test -c Debug -p:DefineConstants=DOTNET_CORE
+     dotnet test -c Release
+     dotnet test -c Debug
+     rm Main.sln
+     rm Runtime/Runtime.csproj
+     rm -rf Runtime/obj
+     rm -rf Runtime/bin
+     rm Tests/Tests.csproj
+     rm -rf Tests/obj
+     rm -rf Tests/bin
  fi
