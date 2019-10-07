@@ -28,10 +28,10 @@ public abstract class GameAI<T> : MonoBehaviour where T : Agent{
         if(action as string == State.Init) return;
         var t = Time.frameCount;
         if(action is System.Action method){
-            log($"Delegate: {method.Method.Name} at frame {t}");
+            Print($"Delegate: {method.Method.Name} at frame {t}");
             method();
         }else{
-            log($"No-arg message: {(string)action} at frame {t}");
+            Print($"No-arg message: {(string)action} at frame {t}");
             SendMessage(action.ToString());
         }
     }
@@ -42,7 +42,7 @@ public abstract class GameAI<T> : MonoBehaviour where T : Agent{
         Effect(solver.Next(Model(), Goal()));
     }
 
-    void log(object arg){ if(verbose) print(arg); }
+    void Print(object arg){ if(verbose) print(arg); }
 
 }}
 
