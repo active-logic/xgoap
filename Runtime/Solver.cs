@@ -1,49 +1,69 @@
 using System;
 using NullRef = System.NullReferenceException;
 using Ex      = System.Exception;
+using S       = Activ.GOAP.PlanningState;
 using static Activ.GOAP.State;
 
 namespace Activ.GOAP{
 public class Solver<T> where T : Agent{
 
-    const string ZERO_COST_ERR = "Zero cost op is not allowed";
-    public int maxNodes = 1000;
-    public int maxIter  = 1000;
+    const string ZERO_COST_ERR = "Zero cost op is not allowed",
+                 NO_INIT       = "Init state is null";
+    //
+    public int  maxNodes = 1000,
+                maxIter  = 1000;
+    public bool brfs     = false;
+    public PlanningState state { get; private set; }
+    //
+    T          initialState;
+    Goal<T>    goal;
+    NodeSet<T> avail = null;
+    int        I;
 
-    public bool brfs = false;
+    public bool isRunning => state == S.Running;
 
-    public Node<T>[] Path(T x, Func<T, bool> goal,
-                            Func<T, float> h = null)
-    => Path(x, new Goal<T>(goal, h));
+    public object Next(T initState,
+                       Func<T, bool>  goal, Func<T, float> h=null,
+                       int iter=-1)
+    => Next(initState, new Goal<T>(goal, h), iter);
 
-    public Node<T>[] Path(T x, in Goal<T> g) {
-        if(x == null) throw new NullRef("Agent is null");
-        var avail = new NodeSet<T>(x, g.h, !brfs, maxNodes);
-        int i = 0;
-        while(avail && i++ < maxIter){
-            var current = avail.Pop();
-            if(g.goal(current.state)) return current.Path();
-            ExpandActions(current, avail);
-            ExpandMethods(current, avail);
-        }
-        return null;
+    public object Next(T initState, in Goal<T> goal, int iter=-1)
+    => Start(initState, goal, iter)?.Head();
+
+    public object Path(T initState, in Goal<T> goal, int iter=-1)
+    => Start(initState, goal, iter)?.Path();
+
+    public object Iterate(int iter=-1) => DoIterate(iter)?.Head();
+
+    public object IterateAndReturnPath(int iter=-1)
+    => DoIterate(iter)?.Path();
+
+    Node<T> Start(T s, in Goal<T> g, int iter=-1){
+        if(s == null) throw new NullRef(NO_INIT);
+        initialState = s;
+        goal         = g;
+        avail        = new NodeSet<T>(s, g.h, !brfs, maxNodes);
+        I            = 0;
+        return DoIterate(iter);
     }
 
-    public object Next(T x, Func<T, bool> goal,
-                            Func<T, float> h = null)
-    => Next(x, new Goal<T>(goal, h));
-
-    public object Next(T x, in Goal<T> g) {
-        if(x == null) throw new NullRef("Agent is null");
-        var avail = new NodeSet<T>(x, g.h, !brfs, maxNodes);
+    Node<T> DoIterate(int iter=-1){
+        if(initialState == null) throw new NullRef(NO_INIT);
+        if(state == S.Stalled) return null;
+        if(iter == -1) iter = maxIter;
         int i = 0;
-        while(avail && i++ < maxIter){
+        while(avail && i++ < iter && I++ < maxIter){
             var current = avail.Pop();
-            if(g.goal(current.state)) return current.Head();
+            if(goal.match(current.state)){
+                state = S.Done;
+                return current;
+            }
             ExpandActions(current, avail);
             ExpandMethods(current, avail);
         }
-        return State.NotFound;
+        state = avail ? (I < maxIter ? S.Running : S.Stalled)
+                      : S.Failed;
+        return null;
     }
 
     void ExpandActions(Node<T> x, NodeSet<T> @out){

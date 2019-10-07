@@ -12,7 +12,8 @@ public class SolverTest : TestBase{
     }
 
     [Test] public void AgentMissing()
-    => Assert.Throws<NullRef>( () => x.Next((Agent)null, null) );
+    => Assert.Throws<NullRef>( () => x.Next((Agent)null,
+                                            x => false) );
 
     [Test] public void GoalMissing()
     => Assert.Throws<NullRef>( () => x.Next( new Idler(), null) );
