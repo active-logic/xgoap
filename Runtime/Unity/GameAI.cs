@@ -30,7 +30,7 @@ public abstract class GameAI<T> : MonoBehaviour where T : Agent{
     // Action mapping may be overriden
     protected virtual void Effect(object action){
         if(action == null) Idle();
-        if(action as string == State.Init) return;
+        if(action as string == Solver<Agent>.INIT) return;
         var t = Time.frameCount;
         if(action is System.Action method){
             Print($"Delegate: {method.Method.Name} at frame {t}");

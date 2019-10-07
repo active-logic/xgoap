@@ -2,11 +2,11 @@ using System;
 using NullRef = System.NullReferenceException;
 using Ex      = System.Exception;
 using S       = Activ.GOAP.PlanningState;
-using static Activ.GOAP.State;
 
 namespace Activ.GOAP{
 public class Solver<T> where T : Agent{
 
+    public const string INIT   = "%init";
     const string ZERO_COST_ERR = "Zero cost op is not allowed",
                  NO_INIT       = "Init state is null";
     //
