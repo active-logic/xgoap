@@ -3,6 +3,7 @@ solution: main.csproj
 dotnet: 2.2.401
 mono: none
 before_script:
+    - dotnet tool install -g coveralls.net --version 1.0.0
     - ./test.sh
 script:
     - dotnet test -c Release -p:DefineConstants=$defs
