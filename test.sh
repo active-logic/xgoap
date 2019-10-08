@@ -1,4 +1,6 @@
 # Setup .NET boilerplate; pass any arg to also run tests
+# For local coverage, this tool needs to be installed once
+# dotnet tool install -g dotnet-reportgenerator-globaltool
 rm Runtime/Runtime.csproj Tests/Tests.csproj Main.sln
 set -euo pipefail
 dotnet new solution --name "Main"
@@ -11,14 +13,17 @@ if [ "$#" -eq  "0" ]
    then
      exit 0
  else
-     dotnet test -c Release
-     dotnet test -c Debug /p:CollectCoverage=true \
-                          /p:CoverletOutputFormat=lcov
+     dotnet test -c Debug -p:CollectCoverage=true \
+                          -p:CoverletOutputFormat=opencover
+     reportgenerator -reports:Tests/coverage.opencover.xml \
+                     -targetdir:../CoverageReport
      rm Main.sln
      rm Runtime/Runtime.csproj
      rm -rf Runtime/obj
      rm -rf Runtime/bin
      rm Tests/Tests.csproj
+     rm Tests/coverage.opencover.xml
      rm -rf Tests/obj
      rm -rf Tests/bin
+     open ../CoverageReport/index.htm
  fi

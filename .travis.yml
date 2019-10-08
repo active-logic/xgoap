@@ -8,3 +8,5 @@ before_script:
 script:
     - dotnet test -c Release -p:DefineConstants=$defs
     - dotnet test -c Debug -p:DefineConstants=$defs -p:CollectCoverage=true
+after_script:
+    - bash <(curl -s https://codecov.io/bash)
