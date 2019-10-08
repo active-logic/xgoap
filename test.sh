@@ -5,13 +5,15 @@ dotnet new solution --name "Main"
 dotnet new classlib --name "Runtime" --force && rm Runtime/Class1.cs
 dotnet new nunit    --name "Tests"   --force && rm Tests/UnitTest1.cs
 dotnet add "Tests/Tests.csproj" reference "Runtime/Runtime.csproj"
+dotnet add "Tests/Tests.csproj" package coverlet.msbuild
 dotnet sln add "Runtime/Runtime.csproj" "Tests/Tests.csproj"
 if [ "$#" -eq  "0" ]
    then
      exit 0
  else
      dotnet test -c Release
-     dotnet test -c Debug
+     dotnet test -c Debug /p:CollectCoverage=true \
+                          /p:CoverletOutputFormat=lcov
      rm Main.sln
      rm Runtime/Runtime.csproj
      rm -rf Runtime/obj

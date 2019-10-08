@@ -6,4 +6,4 @@ before_script:
     - ./test.sh
 script:
     - dotnet test -c Release -p:DefineConstants=$defs
-    - dotnet test -c Debug -p:DefineConstants=$defs
+    - dotnet test -c Debug -p:DefineConstants=$defs -p:CollectCoverage=true
