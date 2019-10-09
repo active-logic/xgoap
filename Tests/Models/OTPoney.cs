@@ -1,6 +1,9 @@
 using System;
 
-/* The proverbial one trick poney */
+/*
+The proverbial One Trick Poney.
+This won't run for over a frame because the model state is unique
+*/
 namespace Activ.GOAP{
 [Serializable] public class OTPoney : Agent{
 

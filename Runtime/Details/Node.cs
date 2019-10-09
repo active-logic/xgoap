@@ -1,3 +1,5 @@
+using System;
+
 namespace Activ.GOAP{
 public class Node<T> : Base{
 
@@ -11,6 +13,13 @@ public class Node<T> : Base{
         this.state  = Assert(result, "result");
         this.prev   = prev;
     }
+
+    // TODO does this work
+    public static implicit operator string(Node<T> x)
+    => (string)(x.Head());
+
+    public static implicit operator Delegate(Node<T> x)
+    => (Delegate)(x.Head());
 
     // Regress to the next action; root (init state) does not count.
     public object Head()

@@ -36,9 +36,10 @@ public class Z_Baker : TestBase{
 
     // TODO - this does not fully verify the output
     [Test] public void Test(){
-        var x = new Baker();
-        var p = new Solver<Baker>();
-        var s = p.Next(x, z => z.state == Baker.Cooking.Cooked);
+        var  x = new Baker();
+        var  p = new Solver<Baker>();
+        Goal<Baker> g = new Goal<Baker>(this.Goal);
+        var s = (System.Delegate)p.Next(x, in g);
         o( s is System.Delegate );
     }
 

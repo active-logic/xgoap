@@ -52,11 +52,12 @@ namespace Activ.GOAP{
     }
 
     override public bool Equals(object other){
-        if(other is Baker that){
-            return this.bake == that.bake
-                && this.temperature == that.temperature;
-        }
-        return false;
+        var that = other as Baker;
+        //if( this.bake != that.bake) return false;
+        //if( this.temperature != that.temperature) return false;
+        //return true;
+        return this.bake == that.bake
+            && this.temperature == that.temperature;
     }
 
     override public int GetHashCode()

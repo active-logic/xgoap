@@ -1,6 +1,7 @@
 using System;
 using NullRef = System.NullReferenceException;
 using Ex      = System.Exception;
+using InvOp   = System.InvalidOperationException;
 using S       = Activ.GOAP.PlanningState;
 
 namespace Activ.GOAP{
@@ -22,33 +23,17 @@ public class Solver<T> where T : Agent{
 
     public bool isRunning => state == S.Running;
 
-    public object Next(T initState,
-                       Func<T, bool>  goal, Func<T, float> h=null,
-                       int iter=-1)
-    => Next(initState, new Goal<T>(goal, h), iter);
-
-    public object Next(T initState, in Goal<T> goal, int iter=-1)
-    => Start(initState, goal, iter)?.Head();
-
-    public object Path(T initState, in Goal<T> goal, int iter=-1)
-    => Start(initState, goal, iter)?.Path();
-
-    public object Iterate(int iter=-1) => DoIterate(iter)?.Head();
-
-    public object IterateAndReturnPath(int iter=-1)
-    => DoIterate(iter)?.Path();
-
-    Node<T> Start(T s, in Goal<T> g, int iter=-1){
+    public Node<T> Next(T s, in Goal<T> g, int iter=-1){
         if(s == null) throw new NullRef(NO_INIT);
         initialState = s;
         goal         = g;
         avail        = new NodeSet<T>(s, g.h, !brfs, maxNodes);
         I            = 0;
-        return DoIterate(iter);
+        return Iterate(iter);
     }
 
-    Node<T> DoIterate(int iter=-1){
-        if(initialState == null) throw new NullRef(NO_INIT);
+    public Node<T> Iterate(int iter=-1){
+        if(initialState == null) throw new InvOp(NO_INIT);
         if(state == S.Stalled) return null;
         if(iter == -1) iter = maxIter;
         int i = 0;

@@ -1,3 +1,4 @@
+#!/bin/bash
 # Setup .NET boilerplate; pass any arg to also run tests
 # For local coverage, this tool needs to be installed once
 # dotnet tool install -g dotnet-reportgenerator-globaltool
@@ -16,14 +17,7 @@ if [ "$#" -eq  "0" ]
      dotnet test -c Debug -p:CollectCoverage=true \
                           -p:CoverletOutputFormat=opencover
      reportgenerator -reports:Tests/coverage.opencover.xml \
-                     -targetdir:../CoverageReport
-     rm Main.sln
-     rm Runtime/Runtime.csproj
-     rm -rf Runtime/obj
-     rm -rf Runtime/bin
-     rm Tests/Tests.csproj
-     rm Tests/coverage.opencover.xml
-     rm -rf Tests/obj
-     rm -rf Tests/bin
-     open ../CoverageReport/index.htm
+                     -targetdir:../../CoverageReport
+     ./clean.sh
+     open ../../CoverageReport/index.htm
  fi
