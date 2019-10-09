@@ -6,8 +6,6 @@ before_script:
     - ./test.sh
 script:
     - dotnet test -c Debug -p:DefineConstants=$defs
-    - >-
-        dotnet test -c Release --no-build -p:DefineConstants=$defs
-        -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
+    - dotnet test -c Release -p:DefineConstants=$defs -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
 after_script:
     - bash <(curl -s https://codecov.io/bash)
