@@ -2,6 +2,9 @@
 
 A fresh take on [Goal oriented action planning](http://alumni.media.mit.edu/~jorkin/goap.html).
 
+[![Build Status](https://travis-ci.com/active-logic/xgoap.svg?branch=master)](https://travis-ci.com/active-logic/xgoap)
+[![codecov](https://codecov.io/gh/active-logic/xgoap/branch/master/graph/badge.svg)](https://codecov.io/gh/active-logic/xgoap)
+
 In GOAP, actions have preconditions, effects, and a cost. Boilerplate? Have a look.
 
 ```cs
@@ -21,8 +24,6 @@ Use A\* or, if no cost function available, BFS.
 - \[COMING SOON] integration with the BT Framework of Awesome, [Active Logic](https://github.com/active-logic/activelogic-cs) 🚀
 
 **Pre-release** - *First release planned: Nov. 2019; APIs are more likely to change during the pre-release period.*
-
-[![Build Status](https://travis-ci.com/active-logic/xgoap.svg?branch=master)](https://travis-ci.com/active-logic/xgoap)
 
 ## Getting started
 

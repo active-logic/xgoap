@@ -15,6 +15,7 @@ public abstract class GameAI<T> : MonoBehaviour where T : Agent{
 
     public bool verbose = true;
     public bool busy;
+    int frameBudget = 5;
     Solver<T> solver;
 
     // Decide a goal and (optionally) a heuristic
@@ -23,9 +24,13 @@ public abstract class GameAI<T> : MonoBehaviour where T : Agent{
     // Instantiates or updates the model using relevant world states
     protected abstract T Model();
 
+    // Override if you have a behavior while idle
+    virtual protected void Idle(){ }
+
     // Action mapping may be overriden
     protected virtual void Effect(object action){
-        if(action as string == State.Init) return;
+        if(action == null) Idle();
+        if(action as string == Solver<Agent>.INIT) return;
         var t = Time.frameCount;
         if(action is System.Action method){
             Print($"Delegate: {method.Method.Name} at frame {t}");
@@ -39,7 +44,9 @@ public abstract class GameAI<T> : MonoBehaviour where T : Agent{
     void Update(){
         if(busy) return;
         solver = solver ?? new Solver<T>();
-        Effect(solver.Next(Model(), Goal()));
+        Effect( solver.isRunning
+            ? solver.Iterate(frameBudget)
+            : solver.Next(Model(), Goal(), frameBudget) );
     }
 
     void Print(object arg){ if(verbose) print(arg); }

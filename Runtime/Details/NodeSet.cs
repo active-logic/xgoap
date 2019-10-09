@@ -14,7 +14,7 @@ public class NodeSet<T> : Base where T : Agent{
                                           int  capacity = 128){
         this.h = h; this.sorted = sorted; this.capacity = capacity;
         states.Add(Assert(x, "Initial state"));
-        list.Add(new Node<T>(State.Init, x));
+        list.Add(new Node<T>(Solver<T>.INIT, x));
     }
 
     public static implicit operator bool(NodeSet<T> self)

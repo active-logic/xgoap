@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using NullRef = System.NullReferenceException;
+using static Activ.GOAP.Solver<Activ.GOAP.Agent>;
 
 namespace Activ.GOAP{
 public class SolverTest : TestBase{
@@ -12,28 +13,29 @@ public class SolverTest : TestBase{
     }
 
     [Test] public void AgentMissing()
-    => Assert.Throws<NullRef>( () => x.Next((Agent)null, null) );
+    => Assert.Throws<NullRef>( () => x.Next((Agent)null,
+                                            x => false) );
 
     [Test] public void GoalMissing()
     => Assert.Throws<NullRef>( () => x.Next( new Idler(), null) );
 
     [Test] public void IdlePassThrough()
-    => o ( x.Next(new Idler(), goal: x => true), State.Init );
+    => o ( x.Next(new Idler(), goal: x => true), INIT );
 
     [Test] public void HeuristicIdlePassThrough()
     => o ( x.Next(new Idler(), goal: x => true, h: x => 0f),
-           State.Init );
+           INIT );
 
     // TODO doesn't look right. First off, returned func should be
     // OneTrick, secondly if goal is always fulfilled no action is
     // needed
     [Test] public void OTPoneyPassThrough()
-    => o( x.Next(new OTPoney(), goal: x => true), State.Init );
+    => o( x.Next(new OTPoney(), goal: x => true), INIT );
 
     // TODO see above
     [Test] public void HeuristicOTPoneyPassThrough()
     => o( x.Next(new OTPoney(), goal: x => true, h: x => 0f),
-          State.Init );
+          INIT );
 
     [Test] public void UseHeuristic(){
         bool h = false;
