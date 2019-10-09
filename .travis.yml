@@ -3,10 +3,11 @@ solution: main.csproj
 dotnet: 2.2.401
 mono: none
 before_script:
-    - dotnet tool install -g coveralls.net --version 1.0.0
     - ./test.sh
 script:
-    - dotnet test -c Release -p:DefineConstants=$defs
-    - dotnet test -c Debug -p:DefineConstants=$defs -p:CollectCoverage=true
+    - dotnet test -c Debug -p:DefineConstants=$defs
+    - >-
+        dotnet test -c Release --no-build -p:DefineConstants=$defs
+        -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
 after_script:
     - bash <(curl -s https://codecov.io/bash)
