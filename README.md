@@ -1,3 +1,8 @@
+**Pre-release** - *First release planned: Nov. 2019; APIs are more likely to change during the pre-release period.*
+
+[![Build Status](https://travis-ci.com/active-logic/xgoap.svg?branch=master)](https://travis-ci.com/active-logic/xgoap)
+[![codecov](https://codecov.io/gh/active-logic/xgoap/branch/master/graph/badge.svg)](https://codecov.io/gh/active-logic/xgoap)
+
 # Beyond G.O.A.P
 
 A fresh take on [Goal oriented action planning](http://alumni.media.mit.edu/~jorkin/goap.html).
@@ -19,10 +24,6 @@ Use A\* or, if no cost function available, BFS.
 - .NET Core compatible
 - Unity integration with UPM support
 - \[COMING SOON] integration with the BT Framework of Awesome, [Active Logic](https://github.com/active-logic/activelogic-cs) 🚀
-
-**Pre-release** - *First release planned: Nov. 2019; APIs are more likely to change during the pre-release period.*
-
-[![Build Status](https://travis-ci.com/active-logic/xgoap.svg?branch=master)](https://travis-ci.com/active-logic/xgoap)
 
 ## Getting started
 
