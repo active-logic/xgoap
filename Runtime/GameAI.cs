@@ -14,27 +14,11 @@ one component.
 namespace Activ.GOAP{
 public abstract partial class GameAI<T> where T : Agent{
 
-    readonly object[] NoArg = new object[0];
     public bool verbose;
     public bool busy;
     public int frameBudget = 5;
     public Solver<T> solver;
-
-    int frameCount{get{
-        #if UNITY_2018_1_OR_NEWER
-        return Time.frameCount;
-        #else
-        return 0;
-        #endif
-    }}
-
-    public void Update(){
-        if(busy) return;
-        solver = solver ?? new Solver<T>();
-        Effect( solver.isRunning
-            ? solver.Iterate(frameBudget)?.Head()
-            : solver.Next(Model(), Goal(), frameBudget)?.Head() );
-    }
+    public ActionHandler<object> handler = new ActionMap();
 
     // Decide a goal and (optionally) a heuristic
     public abstract Goal<T> Goal();
@@ -43,35 +27,15 @@ public abstract partial class GameAI<T> where T : Agent{
     public abstract T Model();
 
     // Override if you have a behavior while idle
-    virtual protected void Idle(){ }
+    virtual public void Idle(){ }
 
-    // Action mapping may be overriden
-    protected virtual void Effect(object action){
-        switch(action){
-        case string noArg:
-            if(noArg == Solver<Agent>.INIT) return;
-            Print($"No-arg message: {noArg} @{frameCount}");
-            this.GetType().GetMethod(noArg).Invoke(this, NoArg);
-            return;
-        case System.Action method:
-            Print($"Delegate: {method.Method.Name} @{frameCount}");
-            method();
-            return;
-        case null:
-            Idle();
-            return;
-        default:
-            throw new ArgumentException($"Bar arg: " + action);
-        }
-    }
-
-    void Print(object arg){
-        if(!verbose) return;
-        #if UNITY_2018_1_OR_NEWER
-        print(arg);
-        #else
-        System.Console.WriteLine(arg);
-        #endif
+    public void Update(){
+        if(busy) return;
+        solver = solver ?? new Solver<T>();
+        handler.Effect( solver.isRunning
+            ? solver.Iterate(frameBudget)?.Head()
+            : solver.Next(Model(), Goal(), frameBudget)?.Head(),
+            this);
     }
 
 }}

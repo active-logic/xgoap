@@ -16,6 +16,6 @@ public class BakerAI : GameAI<Baker>, Baker.AI{
     public void Bake()
     => bake += temperature/2;
 
-    public void ApplyEffect(object arg) => Effect(arg);
+    //public void ApplyEffect(object arg) => Effect(arg);
 
 }}

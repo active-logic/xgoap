@@ -50,10 +50,6 @@ public class GameAITest : TestBase{
         o( x.solver.state, PlanningState.Done);
     }
 
-    [Test] public void Effect_with_invalid_type(){
-        Assert.Throws<ArgumentException>( () => x.ApplyEffect(0) );
-    }
-
     // Transitional --------------------------------------------
 
     [Test] public void ClientIntegrity() => x.Bake();
