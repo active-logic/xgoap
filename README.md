@@ -95,7 +95,7 @@ In this example, `next` is a string because the action set consists in no-arg ac
 
 The goal argument (here, `x => x.hasFirewood`) returns a `bool` to indicate whether the goal has been reached.
 
-Quick and simple Unity integration via [GameAI.cs](Runtime/Unity/GameAI.cs) - check here for a [quick example](Documentation/BakerUnity.md).
+Quick and simple Unity integration via [GameAI.cs](Runtime/GameAI.cs) - check here for a [quick example](Documentation/BakerUnity.md).
 
 ## Getting involved
 
