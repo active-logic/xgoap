@@ -53,9 +53,6 @@ namespace Activ.GOAP{
 
     override public bool Equals(object other){
         var that = other as Baker;
-        //if( this.bake != that.bake) return false;
-        //if( this.temperature != that.temperature) return false;
-        //return true;
         return this.bake == that.bake
             && this.temperature == that.temperature;
     }

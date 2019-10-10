@@ -32,6 +32,7 @@ public abstract partial class GameAI<T> where T : Agent{
     public void Update(){
         if(busy) return;
         solver = solver ?? new Solver<T>();
+        if(handler is ActionMap m) m.verbose = verbose;
         handler.Effect( solver.isRunning
             ? solver.Iterate(frameBudget)?.Head()
             : solver.Next(Model(), Goal(), frameBudget)?.Head(),

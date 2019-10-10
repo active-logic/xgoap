@@ -14,7 +14,6 @@ public class Node<T> : Base{
         this.prev   = prev;
     }
 
-    // TODO does this work
     public static implicit operator string(Node<T> x)
     => (string)(x.Head());
 
