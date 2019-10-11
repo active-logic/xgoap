@@ -12,6 +12,8 @@ one component.
 3 - When an action starts/ends set busy = true/false
 */
 namespace Activ.GOAP{
+// NOTE: derives from MonoBehaviour when used with Unity3D
+// (see Runtime/Unity/GameAI.cs)
 public abstract partial class GameAI<T> where T : Agent{
 
     public bool verbose;
