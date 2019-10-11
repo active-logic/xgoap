@@ -5,11 +5,11 @@ namespace Activ.GOAP{
 
     public float cost { get; set; }
 
-    public Cost Tik(){ cost += 1; return true; }
+    public ante Tik(){ cost += 1; return true; }
 
-    public Cost Tok(){ cost += 1; return true; }
+    public ante Tok(){ cost += 1; return true; }
 
-    Func<Cost>[] Agent.actions => new Func<Cost>[]{ Tik, Tok };
+    Func<ante>[] Agent.actions => new Func<ante>[]{ Tik, Tok };
 
     override public bool Equals(object that)
     => that != null && that is TikTok;

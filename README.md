@@ -10,7 +10,7 @@ A fresh take on [Goal oriented action planning](http://alumni.media.mit.edu/~jor
 In GOAP, actions have preconditions, effects, and a cost. Boilerplate? Have a look.
 
 ```cs
-public Cost ChopLog(){
+public ante ChopLog(){
     if(!hasAxe) return false;  // Precondtion
     hasFirewood = true;        // Effect
     return 4;                  // Cost
@@ -39,24 +39,24 @@ public class WoodChopper : Agent{
     public bool hasAxe, hasFirewood;
 
     // Available actions may change as the model is modified
-    public Func<Cost>[] actions => new Func<Cost>[]{
+    public Func<ante>[] actions => new Func<ante>[]{
         ChopLog, GetAxe, CollectBranches
     };
 
-    public Cost GetAxe(){
+    public ante GetAxe(){
         if(hasAxe) return false;
         hasAxe = true;
         return 2;
     }
 
-    public bool ChopLog(){
+    public ante ChopLog(){
         if(!hasAxe) return false;
         hasFirewood = true;
         return 4;
     }
 
     // Expression-bodied shorthands are supported
-    public bool CollectBranches() => (hasFirewood = true, 8);
+    public ante CollectBranches() => (hasFirewood = true, 8);
 
     // Needed to avoid reentering previously visited states while searching
     override public bool Equals(object other){

@@ -6,12 +6,12 @@ namespace Activ.GOAP{
 
     public int pos;
 
-    public Cost Step(){
+    public ante Step(){
         pos  += 1;
         return true;
     }
 
-    Func<Cost>[] Agent.actions => new Func<Cost>[]{ Step };
+    Func<ante>[] Agent.actions => new Func<ante>[]{ Step };
 
     override public int GetHashCode() => pos;
 

@@ -18,17 +18,17 @@ namespace Activ.GOAP{
 
     public Baker(AI client = null) => this.client = client;
 
-    public Cost Bake(){
+    public ante Bake(){
         bake += (temperature / 2); return true;
     }
 
-    public Cost SetTemperature(int degrees){
+    public ante SetTemperature(int degrees){
         temperature = degrees;
         return true;
     }
 
-    Func<Cost>[] Agent.actions
-    => state != Cooking.Burned ? new Func<Cost>[]{ Bake } : null;
+    Func<ante>[] Agent.actions
+    => state != Cooking.Burned ? new Func<ante>[]{ Bake } : null;
 
     Action[] Parametric.methods
     => state != Cooking.Burned ? CookingOptions() : null;
