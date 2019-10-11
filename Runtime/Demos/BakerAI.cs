@@ -8,7 +8,7 @@ public class BakerAI : GameAI<Baker>, Baker.AI{
     => new Goal<Baker>( x => x.state == Baker.Cooking.Cooked );
 
     override public Baker Model()
-    => new Baker(this){ temperature=temperature, bake=bake };
+    => new Baker(this){ temperature = temperature, bake = bake };
 
     public void SetTemperature(int degrees)
     => temperature = degrees;

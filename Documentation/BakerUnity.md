@@ -5,7 +5,7 @@ We're going to integrate the [baker model](../Tests/Models/Baker.cs) into an act
 Let's create a class named `BakerAI`, derived from `GameAI` (for Unity) and `Baker.AI` (client interface defined in *Baker.cs*)
 
 ```cs
-public class BakerAI : GameAI<Baker>, Baker.AI(){ }
+public class BakerAI : GameAI<Baker>, Baker.AI{ }
 ```
 
 We supply the `Goal<T> Goal()` and `T Model()` methods.
@@ -13,22 +13,22 @@ We supply the `Goal<T> Goal()` and `T Model()` methods.
 Since we don't have a heuristic for the goal, we'll just supply the goal condition:
 
 ```cs
-override protected Goal<Baker> Goal()
+override public Goal<Baker> Goal()
 => new Goal<Baker>( x => x.state == Baker.Cooking.Cooked );
 ```
 
 Now let's provide the model:
 
 ```cs
-override protected Baker Model()
-=> new Baker(this){ temperature=temperature, bake=bake };
+override public Baker Model()
+=> new Baker(this){ temperature = temperature, bake = bake };
 ```
 
-Although not relevant to such a contrived example, in general reconstructing the model before planning is advisable. This is because, in a dynamic game environment, the effects of an action are not guarranted.
+Reconstructing the model before planning is advisable; in a dynamic game environment, the effects of an action are not guarranted.
 
-In this example, the temperature (which really should be a property of an oven object) and bake amount (which would be a property of the pie) are baked into the game AI.
+In this example, the temperature (which really should be a property of an oven object) and bake amount (which would be a property of the pie) are stored by the game AI.
 
-Finally, implement `Baker.AI`.
+Last, we implement `Baker.AI`.
 
 ```cs
 public void SetTemperature(int degrees) => temperature = degrees;
