@@ -10,7 +10,7 @@ A fresh take on [Goal oriented action planning](http://alumni.media.mit.edu/~jor
 In GOAP, actions have preconditions, effects, and a cost. Boilerplate? Have a look.
 
 ```cs
-public bool ChopLog(){
+public Cost ChopLog(){
     if(!hasAxe) return false;  // Precondtion
     hasFirewood = true;        // Effect
     return 4;                  // Cost
