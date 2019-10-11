@@ -9,9 +9,9 @@ namespace Activ.GOAP{
 
     public float cost { get; set; }
 
-    public bool OneTrick(){ cost += 1; return true; }
+    public Cost OneTrick() => true;
 
-    Func<bool>[] Agent.actions => new Func<bool>[]{ OneTrick };
+    Func<Cost>[] Agent.actions => new Func<Cost>[]{ OneTrick };
 
     override public bool Equals(object that)
     => that != null && that is OTPoney;

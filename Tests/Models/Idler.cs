@@ -5,7 +5,7 @@ namespace Activ.GOAP{
 
     public float cost { get; set; }
 
-    Func<bool>[] Agent.actions => new Func<bool>[]{};
+    Func<Cost>[] Agent.actions => new Func<Cost>[]{};
 
     override public bool Equals(object that)
     => that != null && that is Idler;

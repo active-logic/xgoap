@@ -7,11 +7,14 @@ public class Node<T> : Base{
     public readonly object  action;
     public readonly T       state;
     public float            value;
+    public float cost{ get; private set; }
 
-    public Node(object action, T result, Node<T> prev = null){
+    public Node(object action, T result, Node<T> prev = null,
+                                         float   cost = 0f){
         this.action = Assert(action, "action");
         this.state  = Assert(result, "result");
         this.prev   = prev;
+        this.cost   = cost + (prev?.cost ?? 0f);
     }
 
     public static implicit operator string(Node<T> x)

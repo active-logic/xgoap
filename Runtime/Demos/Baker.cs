@@ -6,11 +6,7 @@ namespace Activ.GOAP{
 
     public const int Step    = 55;
     public const int MaxHeat = 200;
-
     public enum Cooking{Raw, Cooked, Burned}
-
-    public float cost { get; set; }
-
     public int   temperature = 0;
     public float bake;
 
@@ -22,19 +18,17 @@ namespace Activ.GOAP{
 
     public Baker(AI client = null) => this.client = client;
 
-    public bool Bake(){
-        cost++;
+    public Cost Bake(){
         bake += (temperature / 2); return true;
     }
 
-    public bool SetTemperature(int degrees){
-        cost++;
+    public Cost SetTemperature(int degrees){
         temperature = degrees;
         return true;
     }
 
-    Func<bool>[] Agent.actions
-    => state != Cooking.Burned ? new Func<bool>[]{ Bake } : null;
+    Func<Cost>[] Agent.actions
+    => state != Cooking.Burned ? new Func<Cost>[]{ Bake } : null;
 
     Action[] Parametric.methods
     => state != Cooking.Burned ? CookingOptions() : null;

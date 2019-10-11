@@ -4,11 +4,9 @@ using System;
 namespace Activ.GOAP{
 [Serializable] public class CouchSurfer : Agent{
 
-    public float cost { get; set; }
+    public Cost Sleep() => 0;
 
-    public bool Sleep() => true;
-
-    Func<bool>[] Agent.actions => new Func<bool>[]{ Sleep };
+    Func<Cost>[] Agent.actions => new Func<Cost>[]{ Sleep };
 
     override public bool Equals(object that)
     => that != null && that is CouchSurfer;

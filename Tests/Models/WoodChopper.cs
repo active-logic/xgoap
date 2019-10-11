@@ -3,31 +3,22 @@ using System;
 namespace Activ.GOAP{
 [Serializable] public class WoodChopper : Agent{
 
-    public bool hasAxe = false;
-    public bool hasFirewood = false;
+    public bool hasAxe, hasFirewood;
 
-    public float cost { get; set; }
-
-    public Func<bool>[] actions => new Func<bool>[]{
+    public Func<Cost>[] actions => new Func<Cost>[]{
         ChopLog, GetAxe, CollectBranches
     };
 
-    public bool GetAxe(){
+    public Cost GetAxe(){
         if(hasAxe) return false;
-        cost += 2;
-        return hasAxe = true;
+        hasAxe = true;
+        return 2;
     }
 
-    public bool ChopLog(){
-        if(!hasAxe) return false;
-        cost += 4;
-        return hasFirewood = true;
-    }
+    public Cost ChopLog()
+    => hasAxe ? (Cost)(hasFirewood = true, 4f) : (Cost)false;
 
-    public bool CollectBranches(){
-        cost += 8;
-        return hasFirewood = true;
-    }
+    public Cost CollectBranches() => (hasFirewood = true, 8);
 
     override public bool Equals(object other){
         if(other == null) return false;

@@ -7,14 +7,14 @@ namespace Activ.GOAP{
     public float cost { get; set; }
     int shots = 6;
 
-    public bool Shoot(){
+    public Cost Shoot(){
         cost  += 1;
         shots -= 1;
         return true;
     }
 
-    Func<bool>[] Agent.actions
-    => shots<=0 ? null : new Func<bool>[]{ Shoot };
+    Func<Cost>[] Agent.actions
+    => shots<=0 ? null : new Func<Cost>[]{ Shoot };
 
     override public int GetHashCode() => shots;
 

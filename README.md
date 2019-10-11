@@ -11,10 +11,9 @@ In GOAP, actions have preconditions, effects, and a cost. Boilerplate? Have a lo
 
 ```cs
 public bool ChopLog(){
-    if(!hasAxe) return false; // Precondtion
-    cost += 4;                // Pay cost
-    hasFirewood = true;       // Effect
-    return true;              // Success!
+    if(!hasAxe) return false;  // Precondtion
+    hasFirewood = true;        // Effect
+    return 4;                  // Cost
 }
 ```
 
@@ -37,32 +36,27 @@ using Activ.GOAP;
 [Serializable]  // Helps cloning model state
 public class WoodChopper : Agent{
 
-    public bool hasAxe = false;
-    public bool hasFirewood = false;
-
-    public float cost { get; set; }
+    public bool hasAxe, hasFirewood;
 
     // Available actions may change as the model is modified
-    public Func<bool>[] actions => new Func<bool>[]{
+    public Func<Cost>[] actions => new Func<Cost>[]{
         ChopLog, GetAxe, CollectBranches
     };
 
-    public bool GetAxe(){
+    public Cost GetAxe(){
         if(hasAxe) return false;
-        cost += 2;
-        return hasAxe = true;
+        hasAxe = true;
+        return 2;
     }
 
     public bool ChopLog(){
         if(!hasAxe) return false;
-        cost += 4;
-        return hasFirewood = true;
+        hasFirewood = true;
+        return 4;
     }
 
-    public bool CollectBranches(){
-        cost += 8;
-        return hasFirewood = true;
-    }
+    // Expression-bodied shorthands are supported
+    public bool CollectBranches() => (hasFirewood = true, 8);
 
     // Needed to avoid reentering previously visited states while searching
     override public bool Equals(object other){
@@ -87,15 +81,15 @@ Run the model and get the next planned action:
 
 ```cs
 var chopper = new WoodChopper();
-var solver = new Solver<WoodChopper>();
-var next = (string)solver.Next(chopper, x => x.hasFirewood);
+var solver  = new Solver<WoodChopper>();
+var next    = solver.Next(chopper, new Goal<WoodChopper>(x => x.hasFirewood));
 ```
 
-In this example, `next` is a string because the action set consists in no-arg actions. Parametric actions are supported; they are concise and type safe. Check the [Baker](Tests/Models/Baker.cs) example.
+Parametric actions are supported; they are concise and type safe. Check the [Baker](Tests/Models/Baker.cs) example.
 
 The goal argument (here, `x => x.hasFirewood`) returns a `bool` to indicate whether the goal has been reached.
 
-Quick and simple Unity integration via [GameAI.cs](Runtime/Unity/GameAI.cs) - check here for a [quick example](Documentation/BakerUnity.md).
+Quick and simple Unity integration via [GameAI.cs](Runtime/GameAI.cs) - check here for a [quick example](Documentation/BakerUnity.md).
 
 ## Getting involved
 

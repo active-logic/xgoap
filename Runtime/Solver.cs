@@ -55,11 +55,12 @@ public class Solver<T> where T : Agent{
         if(x.state.actions == null) return;
         for(int i = 0; i < x.state.actions.Length; i++){
             var y = Clone(x.state);
-            if(y.actions[i]()){
-                if(!brfs && (y.cost == x.state.cost))
+            var r = y.actions[i]();
+            if(r.done){
+                if(!brfs && (r.cost <= 0))
                     throw new Ex(ZERO_COST_ERR);
                 var name = x.state.actions[i].Method.Name;
-                @out.Insert(new Node<T>(name, y, x));
+                @out.Insert(new Node<T>(name, y, x, r.cost));
             }
         }
     }
@@ -70,11 +71,12 @@ public class Solver<T> where T : Agent{
         for(int i = 0; i < p.methods.Length; i++){
             var y = Clone(x.state);
             var q = y as Parametric;
-            if(q.methods[i].action()){
-                if(!brfs && (y.cost == x.state.cost))
+            var r = q.methods[i].action();
+            if(r.done){
+                if(!brfs && r.cost <= 0)
                     throw new Ex(ZERO_COST_ERR);
                 var effect = p.methods[i].effect;
-                @out.Insert(new Node<T>(effect, y, x));
+                @out.Insert(new Node<T>(effect, y, x, r.cost));
             }
         }
     }

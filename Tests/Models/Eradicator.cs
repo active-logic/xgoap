@@ -8,21 +8,21 @@ namespace Activ.GOAP{
 
     public int rats = 3;
 
-    public bool Eradicate(){
+    public Cost Eradicate(){
         cost += baseCost;
         if(rats>0) rats--;
         return true;
     }
 
-    public bool Dawdle(){
+    public Cost Dawdle(){
         cost += baseCost;
         return true;
     }
 
-    public bool Wipeout() => false;
+    public Cost Wipeout() => false;
 
-    Func<bool>[] Agent.actions
-    => new Func<bool>[]{Eradicate, Dawdle, Wipeout};
+    Func<Cost>[] Agent.actions
+    => new Func<Cost>[]{Eradicate, Dawdle, Wipeout};
 
     override public bool Equals(object other){
         if(other is Eradicator that){

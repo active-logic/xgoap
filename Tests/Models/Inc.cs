@@ -4,16 +4,14 @@ using System;
 namespace Activ.GOAP{
 [Serializable] public class Inc : Agent{
 
-    public float cost { get; set; }
     public int pos;
 
-    public bool Step(){
-        cost += 1;
+    public Cost Step(){
         pos  += 1;
         return true;
     }
 
-    Func<bool>[] Agent.actions => new Func<bool>[]{ Step };
+    Func<Cost>[] Agent.actions => new Func<Cost>[]{ Step };
 
     override public int GetHashCode() => pos;
 
