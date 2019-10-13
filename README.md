@@ -24,6 +24,14 @@ Use A\* or, if no cost function available, BFS.
 - Unity integration with UPM support
 - \[COMING SOON] integration with the BT Framework of Awesome, [Active Logic](https://github.com/active-logic/activelogic-cs) 🚀
 
+## Install
+
+Clone the repository and add the package to your project as normal.
+
+For Unity 3D:
+- Add `xgoap/package.json` via *package manager > + > add package from disk.*
+- Alternatively, add `"com.activ.goap": "https://github.com/active-logic/xgoap.git"` to *Packages/manifest.json*
+
 ## Getting started
 
 For planning you need a model (Agent), a goal and, if available, a heuristic. I will use [Brent Owens' woodcutter](https://gamedevelopment.tutsplus.com/tutorials/goal-oriented-action-planning-for-a-smarter-ai--cms-20793) agent as an example.
