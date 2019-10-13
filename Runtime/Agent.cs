@@ -3,6 +3,6 @@ using System;
 namespace Activ.GOAP{
 public interface Agent{
 
-    Func<ante>[] actions{ get; }
+    Func<Cost>[] actions{ get; }
 
 }}

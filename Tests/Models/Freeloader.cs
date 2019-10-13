@@ -4,9 +4,9 @@ using System;
 namespace Activ.GOAP{
 [Serializable] public class Freeloader : Agent, Parametric{
 
-    public ante Load(int n) => 0;
+    public Cost Load(int n) => 0;
 
-    Func<ante>[] Agent.actions => new Func<ante>[]{ };
+    Func<Cost>[] Agent.actions => new Func<Cost>[]{ };
 
     Action[] Parametric.methods => new Action[]{
         new Action( () => Load(1000), () => {} )

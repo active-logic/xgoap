@@ -5,20 +5,20 @@ namespace Activ.GOAP{
 
     public bool hasAxe, hasFirewood;
 
-    public Func<ante>[] actions => new Func<ante>[]{
+    public Func<Cost>[] actions => new Func<Cost>[]{
         ChopLog, GetAxe, CollectBranches
     };
 
-    public ante GetAxe(){
+    public Cost GetAxe(){
         if(hasAxe) return false;
         hasAxe = true;
         return 2;
     }
 
-    public ante ChopLog()
-    => hasAxe ? (ante)(hasFirewood = true, 4f) : (ante)false;
+    public Cost ChopLog()
+    => hasAxe ? (Cost)(hasFirewood = true, 4f) : (Cost)false;
 
-    public ante CollectBranches() => (hasFirewood = true, 8);
+    public Cost CollectBranches() => (hasFirewood = true, 8);
 
     override public bool Equals(object other){
         if(other == null) return false;

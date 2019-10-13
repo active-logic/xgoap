@@ -3,7 +3,7 @@ using NUnit.Framework;
 namespace Activ.GOAP{
 public class CostTest : TestBase{
 
-    ante r;
+    Cost r;
 
     [Test] public void FromFloat([Values(-1, 0, 1)] float cost){
         r = cost;
