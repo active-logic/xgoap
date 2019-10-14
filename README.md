@@ -93,11 +93,11 @@ var solver  = new Solver<WoodChopper>();
 var next    = solver.Next(chopper, new Goal<WoodChopper>(x => x.hasFirewood));
 ```
 
-Parametric actions are supported; they are concise and type safe. Check the [Baker](Tests/Models/Baker.cs) example.
+Parametric actions are supported; they are concise and type safe. Check the [Baker](Runtime/Demos/Baker.cs) example.
 
 The goal argument (here, `x => x.hasFirewood`) returns a `bool` to indicate whether the goal has been reached.
 
-Quick and simple Unity integration via [GameAI.cs](Runtime/GameAI.cs) - check here for a [quick example](Documentation/BakerUnity.md).
+Quick and simple Unity integration via [GameAI.cs](Runtime/GameAI.cs) - for deetails, [read here](Documentation/BakerUnity.md).
 
 ## Getting involved
 
