@@ -2,13 +2,10 @@ language: csharp
 solution: main.csproj
 dotnet: 2.2.401
 mono: none
-env:
-    global:
-        - DOTNET_CLI_TELEMETRY_OPTOUT: 1
 before_script:
     - ./test.sh
 script:
-    - dotnet test -c Debug -p:DefineConstants=$defs
-    - dotnet test -c Release -p:DefineConstants=$defs -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
+    - dotnet test -c Debug
+    - dotnet test -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
 after_script:
     - bash <(curl -s https://codecov.io/bash)
