@@ -3,5 +3,6 @@ public enum PlanningState{
     Done,
     Failed,
     Running,
-    Stalled
+    MaxIterExceeded,
+    CapacityExceeded
 }}

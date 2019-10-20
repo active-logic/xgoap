@@ -47,7 +47,7 @@ public class NodeTest : TestBase{
     [Test] public void Path1(){
         var x = new Node<object>(ACTION_1, new object());
         var path = x.Path();
-        o( path[0].ToString(), "[0 :: Test => object]");
+        o( path[0].ToString(), "[0.0 :: Test => object]");
     }
 
     [Test] public void Head2(){
@@ -60,8 +60,8 @@ public class NodeTest : TestBase{
         var x = new Node<object>(INIT, new object());
         var y = new Node<object>(ACTION_1, new object(), x);
         var path = y.Path();
-        o( path[0].ToString(), "[0 :: %init => object]");
-        o( path[1].ToString(), "[0 :: Test => object]");
+        o( path[0].ToString(), "[0.0 :: %init => object]");
+        o( path[1].ToString(), "[0.0 :: Test => object]");
     }
 
     [Test] public void Head3(){
@@ -76,14 +76,14 @@ public class NodeTest : TestBase{
         var y = new Node<object>(ACTION_1, new object(), x);
         var z = new Node<object>(ACTION_2, new object(), y);
         var path = z.Path();
-        o( path[0].ToString(), "[0 :: %init => object]");
-        o( path[1].ToString(), "[0 :: Test => object]");
-        o( path[2].ToString(), "[0 :: Test => object]");
+        o( path[0].ToString(), "[0.0 :: %init => object]");
+        o( path[1].ToString(), "[0.0 :: Test => object]");
+        o( path[2].ToString(), "[0.0 :: Test => object]");
     }
 
     [Test] public void String(){
         var x = new Node<object>(INIT, new object());
-        o( x.ToString(), "[0 :: %init => object]" );
+        o( x.ToString(), "[0.0 :: %init => object]" );
     }
 
 }}

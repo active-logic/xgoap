@@ -17,6 +17,8 @@ public class NodeSet<T> : Base where T : Agent{
         list.Add(new Node<T>(Solver<T>.INIT, x));
     }
 
+    public bool capacityExceeded => count > capacity;
+
     public static implicit operator bool(NodeSet<T> self)
     => self.count > 0 && self.count <= self.capacity;
 

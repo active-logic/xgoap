@@ -8,11 +8,12 @@ public class TestBase{
     protected void o (object x, object y)
     => Assert.That(x, Is.EqualTo(y));
 
-    #if UNITY_EDITOR
-
-    protected static void print(object msg)
-    => UnityEngine.Debug.Log(msg);
-
-    #endif
+    protected void print(string msg){
+        #if UNITY_EDITOR
+        UnityEngine.Debug.Log(msg);
+        #else
+        System.Console.WriteLine(msg);
+        #endif
+    }
 
 }

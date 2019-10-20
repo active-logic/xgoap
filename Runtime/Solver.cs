@@ -35,10 +35,11 @@ public class Solver<T> : SolverStats where T : Agent{
 
     public Node<T> Iterate(int iter=-1){
         if(initialState == null) throw new InvOp(NO_INIT);
-        if(state == S.Stalled) return null;
+        if(state == S.MaxIterExceeded) return null;
         if(iter == -1) iter = maxIter;
         int i = 0;
         while(avail && i++ < iter && I++ < maxIter){
+            //rint($"# {I} (avail: {avail.count}) --------------- ");
             var current = avail.Pop();
             if(goal.match(current.state)){
                 state = S.Done;
@@ -47,9 +48,14 @@ public class Solver<T> : SolverStats where T : Agent{
             ExpandActions(current, avail);
             ExpandMethods(current, avail);
             if(avail.count > fxMaxNodes) fxMaxNodes = avail.count;
+            //rint("Avail: " + avail.count);
         }
-        state = avail ? (I < maxIter ? S.Running : S.Stalled)
-                      : S.Failed;
+        if(avail.capacityExceeded){
+            state = S.CapacityExceeded;
+        }else{
+            state = avail ? (I < maxIter ? S.Running : S.MaxIterExceeded)
+                        : S.Failed;
+        }
         return null;
     }
 
@@ -82,6 +88,8 @@ public class Solver<T> : SolverStats where T : Agent{
             }
         }
     }
+
+    //oid Print(object msg) => UnityEngine.Debug.Log(msg);
 
     internal static T Clone(T x) => CloneUtil.DeepClone(x);
 

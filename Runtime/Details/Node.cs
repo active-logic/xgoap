@@ -38,8 +38,15 @@ public class Node<T> : Base{
         return @out;
     }
 
+    public string PathToString(){
+        var path = Path();
+        var s = "";
+        foreach(var k in path) s += k + '\n';
+        return s;
+    }
+
     override public string ToString()
-    => $"[{value} :: {action} => {state}]"
+    => $"[{value:0.0} :: {action} => {state}]"
                                 .Replace("System.Object", "object");
 
 }}
