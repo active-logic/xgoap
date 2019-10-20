@@ -24,12 +24,13 @@ public class NodeSet<T> : Base where T : Agent{
 
     public void Insert(Node<T> n){
         if(states.Contains(n.state)) return;
+        states.Add(n.state);
         if(sorted){
             n.value = n.cost + (h != null ? h(n.state) : 0);
             for(int i = list.Count-1; i >= 0; i--){
                 if(n.value < list[i].value){
                     list.Insert(i + 1, n);
-                    states.Add(n.state); return;
+                    return;
                 }
             }
         } list.Insert(0, n);
