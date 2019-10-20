@@ -21,6 +21,7 @@ public abstract partial class GameAI<T> : SolverOwner
     public bool busy;
     public int frameBudget = 5;
     public int maxNodes = 1000;
+    public int maxIter  = 1000;
     public Solver<T> solver;
     public ActionHandler<object> handler = new ActionMap();
 
@@ -41,6 +42,7 @@ public abstract partial class GameAI<T> : SolverOwner
         if(model == null) return;
         solver = solver ?? new Solver<T>();
         solver.maxNodes = maxNodes;
+        solver.maxIter  = maxIter;
         if(handler is ActionMap m) m.verbose = verbose;
         handler.Effect( solver.isRunning
             ? solver.Iterate(frameBudget)?.Head()
