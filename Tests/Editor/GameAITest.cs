@@ -14,6 +14,8 @@ public class GameAITest : TestBase{
         #endif
     }
 
+    [Test] public void Stats() => o( x.stats, null);
+
     [Test] public void Verbose(){
         o( x.verbose, false);
         o( x.verbose = true, true);

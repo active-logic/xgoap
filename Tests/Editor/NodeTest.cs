@@ -17,6 +17,16 @@ public class NodeTest : TestBase{
         o( x.value, 0);
     }
 
+    [Test] public void ConstructorWithPredecessor(){
+        var a = new Node<object>(ACTION_1, new object(), cost: 1);
+        var x = new Node<object>(ACTION_1, new object(), a, 1);
+        o( x.prev, a );
+        o( x.action, ACTION_1);
+        o( x.state is object );
+        o( x.value, 0);
+        o( x.cost, 2);
+    }
+
     [Test] public void ConstructorRequiresAction()
     => Assert.Throws<NullRef>( () => new Node<object>(null, null) );
 

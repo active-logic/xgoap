@@ -5,7 +5,7 @@ using InvOp   = System.InvalidOperationException;
 using S       = Activ.GOAP.PlanningState;
 
 namespace Activ.GOAP{
-public class Solver<T> where T : Agent{
+public class Solver<T> : SolverStats where T : Agent{
 
     public const string INIT   = "%init";
     const string ZERO_COST_ERR = "Zero cost op is not allowed",
@@ -15,11 +15,12 @@ public class Solver<T> where T : Agent{
                 maxIter  = 1000;
     public bool brfs     = false;
     public PlanningState state { get; private set; }
+    public int  fxMaxNodes     { get; private set; }
+    public int  I              { get; private set; }
     //
     T          initialState;
     Goal<T>    goal;
     NodeSet<T> avail = null;
-    int        I;
 
     public bool isRunning => state == S.Running;
 
@@ -45,6 +46,7 @@ public class Solver<T> where T : Agent{
             }
             ExpandActions(current, avail);
             ExpandMethods(current, avail);
+            if(avail.count > fxMaxNodes) fxMaxNodes = avail.count;
         }
         state = avail ? (I < maxIter ? S.Running : S.Stalled)
                       : S.Failed;
