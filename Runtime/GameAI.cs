@@ -48,6 +48,22 @@ public abstract partial class GameAI<T> : SolverOwner
             ? solver.Iterate(frameBudget)?.Head()
             : solver.Next(model, Goal(), frameBudget)?.Head(),
             this);
+        // TODO - behavior here should reflect user defined policy;
+        // also, don't need to discard the solver here
+        switch(solver.state){
+            case PlanningState.MaxIterExceeded:
+                #if UNITY_2018_1_OR_NEWER
+                Debug.LogWarning("Max iter exc.");
+                #endif
+                solver = null;
+                break;
+            case PlanningState.CapacityExceeded:
+                #if UNITY_2018_1_OR_NEWER
+                Debug.LogWarning("Cap exc.");
+                #endif
+                solver = null;
+                break;
+        }
     }
 
 }}

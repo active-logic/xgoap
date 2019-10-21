@@ -25,8 +25,7 @@ public class NodeSet<T> : Base where T : Agent{
     internal int count => list.Count;
 
     public void Insert(Node<T> n){
-        if(states.Contains(n.state)) return;
-        states.Add(n.state);
+        if(!states.Add(n.state)) return;
         if(sorted){
             n.value = n.cost + (h != null ? h(n.state) : 0);
             for(int i = list.Count-1; i >= 0; i--){

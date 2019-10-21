@@ -89,8 +89,7 @@ public class Solver<T> : SolverStats where T : Agent{
         }
     }
 
-    //oid Print(object msg) => UnityEngine.Debug.Log(msg);
-
-    internal static T Clone(T x) => CloneUtil.DeepClone(x);
+    internal static T Clone(T x)
+    => (x is Clonable c) ? (T)c.Clone() : CloneUtil.DeepClone(x);
 
 }}
