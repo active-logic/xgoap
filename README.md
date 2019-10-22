@@ -22,6 +22,7 @@ Use A\* or, if no cost function available, BFS.
 - Engine agnostic models - test without pain.
 - .NET Core compatible
 - Unity integration with UPM support
+- [Demo project](https://github.com/active-logic/xgoap-demos) to help you get started
 - \[COMING SOON] integration with the BT Framework of Awesome, [Active Logic](https://github.com/active-logic/activelogic-cs) 🚀
 
 ## Install
@@ -97,7 +98,7 @@ Parametric actions are supported; they are concise and type safe. Check the [Bak
 
 The goal argument (here, `x => x.hasFirewood`) returns a `bool` to indicate whether the goal has been reached.
 
-Quick and simple Unity integration via [GameAI.cs](Runtime/GameAI.cs) - for deetails, [read here](Documentation/BakerUnity.md).
+Quick and simple Unity integration via [GameAI.cs](Runtime/GameAI.cs) - for details, [read here](Documentation/BakerUnity.md).
 
 ## Getting involved
 
