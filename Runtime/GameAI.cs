@@ -19,12 +19,10 @@ public abstract partial class GameAI<T> : SolverOwner
 
     public bool verbose;
     public bool busy;
-    public int frameBudget = 5;
-    public int maxNodes = 1000;
-    public int maxIter  = 1000;
+    public SolverParams config = new SolverParams();
+    public Handlers policies = new Handlers();
     public Solver<T> solver;
     public ActionHandler<object> handler = new ActionMap();
-
     public SolverStats stats => solver;
 
     // Decide a goal and (optionally) a heuristic
@@ -41,29 +39,25 @@ public abstract partial class GameAI<T> : SolverOwner
         var model = Model();
         if(model == null) return;
         solver = solver ?? new Solver<T>();
-        solver.maxNodes = maxNodes;
-        solver.maxIter  = maxIter;
+        solver.maxNodes = config.maxNodes;
+        solver.maxIter  = config.maxIter;
         if(handler is ActionMap m) m.verbose = verbose;
         handler.Effect( solver.isRunning
-            ? solver.Iterate(frameBudget)?.Head()
-            : solver.Next(model, Goal(), frameBudget)?.Head(),
+            ? solver.Iterate(config.frameBudget)?.Head()
+            : solver.Next(model, Goal(), config.frameBudget)?.Head(),
             this);
-        // TODO - behavior here should reflect user defined policy;
-        // also, don't need to discard the solver here
-        switch(solver.state){
-            case PlanningState.MaxIterExceeded:
-                #if UNITY_2018_1_OR_NEWER
-                Debug.LogWarning("Max iter exc.");
-                #endif
-                solver = null;
-                break;
-            case PlanningState.CapacityExceeded:
-                #if UNITY_2018_1_OR_NEWER
-                Debug.LogWarning("Cap exc.");
-                #endif
-                solver = null;
-                break;
+        if(policies.OnResult(solver.state, ObjectName())){
+            //ebug.Log($"Clear solver - {solver.state}");
+            solver = null;
         }
+    }
+
+    protected virtual string ObjectName(){
+        #if UNITY_2018_1_OR_NEWER
+        return this.gameObject.name;
+        #else
+        return this.GetType().Name;
+        #endif
     }
 
 }}
