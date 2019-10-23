@@ -31,12 +31,12 @@ namespace Activ.GOAP{
         }
     }
 
-    bool Do(S s, string c, Policy policy, bool w){
+    bool Do(S s, string c, Policy policy, bool warn){
         switch(policy){
         case Policy.Stop:
-            if(warnOnFail) Warn(s, c); return NoAction;
+            if(warn) Warn(s, c); return NoAction;
         case Policy.Restart:
-            if(warnOnFail) Warn(s, c); return Restart;
+            if(warn) Warn(s, c); return Restart;
         default:
             Err(s, c); return NoAction;
 
