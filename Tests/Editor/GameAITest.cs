@@ -22,7 +22,7 @@ public class GameAITest : TestBase{
         o( x.verbose = true, true);
     }
 
-    [Test] public void Busy() => o( x.busy, false);
+    [Test] public void Busy() => o( x.IsActing(), false);
 
     [Test] public void Update(){
         x.config.frameBudget = 32;
