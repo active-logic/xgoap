@@ -8,9 +8,22 @@ public class NodeTest : TestBase{
 
     const string ACTION_1 = "Test";
     const string ACTION_2 = "Test";
+    //const string ACTION_2 = "Test";
+
+    Node<object> x;
+
+    [SetUp] public void Setup()
+    => x = new Node<object>(ACTION_1, new object());
+
+    [Test] public void Prev() => o(x.prev, null);
+
+    [Test] public void Action() => o(x.action, ACTION_1);
+
+    [Test] public void State() => o(x.state is object);
+
+    [Test] public void Value() => o(x.value = 1, 1);
 
     [Test] public void Constructor(){
-        var x = new Node<object>(ACTION_1, new object());
         o( x.prev, null );
         o( x.action, ACTION_1);
         o( x.state is object );
@@ -33,19 +46,9 @@ public class NodeTest : TestBase{
     [Test] public void ConstructorRequiresState()
     => Assert.Throws<NullRef>( () => new Node<object>("X", null) );
 
-    [Test] public void Value(){
-        var x = new Node<object>(ACTION_1, new object());
-        x.value = 1;
-        o(x.value, 1);
-    }
-
-    [Test] public void Head1(){
-        var x = new Node<object>(ACTION_1, new object());
-        o( x.Head(), ACTION_1);
-    }
+    [Test] public void Head1() => o( x.Head(), ACTION_1);
 
     [Test] public void Path1(){
-        var x = new Node<object>(ACTION_1, new object());
         var path = x.Path();
         o( path[0].ToString(), "[0.0 :: Test => object]");
     }
@@ -79,6 +82,13 @@ public class NodeTest : TestBase{
         o( path[0].ToString(), "[0.0 :: %init => object]");
         o( path[1].ToString(), "[0.0 :: Test => object]");
         o( path[2].ToString(), "[0.0 :: Test => object]");
+    }
+
+    [Test] public void PathToString(){
+        var x = new Node<object>(INIT, new object());
+        var y = new Node<object>(ACTION_1, new object(), x);
+        var path = y.PathToString();
+        o(path, "%init\nTest\n");
     }
 
     [Test] public void String(){
