@@ -28,6 +28,16 @@ public class NodeSet<T> : Base where T : Agent{
         if(!states.Add(n.state)) return;
         if(sorted){
             n.value = n.cost + (h != null ? h(n.state) : 0);
+            // NOTE: In actual use, tested 4x faster than SortedSet;
+            //  Likely bottleneck with SortedSet is the API, not the
+            // algorithm; SortedSet needs total, ordering:
+            // - a.CompareTo(a) == 0
+            // - a.CompareTo(b) must positive if b.CompareTo(a) is
+            // negative.
+            // Superficially these rules are sound. In practice to
+            // just order elements by cost, this is overkill.
+            // Also getting Min/Max item is cheap, but there's no way
+            // to combine this with a 'pop'
             for(int i = list.Count-1; i >= 0; i--){
                 if(n.value < list[i].value){
                     list.Insert(i + 1, n);
