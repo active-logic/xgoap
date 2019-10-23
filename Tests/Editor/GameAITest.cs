@@ -1,3 +1,6 @@
+// TODO - Does not run in Unity right now. Setup issue
+#if !UNITY_2018_1_OR_NEWER
+
 using NUnit.Framework;
 using System;
 
@@ -70,3 +73,5 @@ public class GameAITest : TestBase{
     }
 
 }}
+
+#endif  // UNITY
