@@ -33,6 +33,14 @@ public class NodeTest : TestBase{
     [Test] public void ConstructorRequiresState()
     => Assert.Throws<NullRef>( () => new Node<object>("X", null) );
 
+    [Test] public void Compare(){
+        var x = new Node<object>(ACTION_1, new object());
+        var y = new Node<object>(ACTION_1, new object());
+        x.value = 2;
+        y.value = 1;
+        o( x.CompareTo(y) == 1);
+    }
+
     [Test] public void Value(){
         var x = new Node<object>(ACTION_1, new object());
         x.value = 1;

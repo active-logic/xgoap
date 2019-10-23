@@ -1,5 +1,7 @@
 using System;
+using UnityEngine;
 using System.Collections.Generic;
+using Ex = System.Exception;
 
 namespace Activ.GOAP{
 public class NodeSet<T> : Base where T : Agent{
@@ -7,8 +9,8 @@ public class NodeSet<T> : Base where T : Agent{
     internal bool sorted;
     int capacity;
     Func<T, float> h;
-    HashSet<T>     states = new HashSet<T>();
-    List<Node<T>>  list   = new List<Node<T>>();
+    HashSet<T>         states = new HashSet<T>();
+    SortedSet<Node<T>> list   = new SortedSet<Node<T>>();
 
     public NodeSet(T x, Func<T, float> h, bool sorted  = true,
                                           int  capacity = 128){
@@ -26,20 +28,21 @@ public class NodeSet<T> : Base where T : Agent{
 
     public void Insert(Node<T> n){
         if(!states.Add(n.state)) return;
-        if(sorted){
-            n.value = n.cost + (h != null ? h(n.state) : 0);
-            for(int i = list.Count-1; i >= 0; i--){
-                if(n.value < list[i].value){
-                    list.Insert(i + 1, n);
-                    return;
-                }
-            }
-        } list.Insert(0, n);
+        n.value = n.cost + (h != null ? h(n.state) : 0);
+        list.Add(n);
     }
 
     public Node<T> Pop(){
-        int i = list.Count-1; var n = list[i]; list.RemoveAt(i);
-        return n;
+        Node<T> e = list.Min;
+        bool removed = list.Remove(e);
+        // If Node does not implement CompareTo the way SortedSet is
+        // expecting, this may happen.
+        // - If CompareTo does not return 0 when an object is
+        // compared to itself, then the object won't ever be found.
+        // - If a.CompareTo(b) and b.CompareTo(a) are not consistent
+        // errors also occur
+        if(!removed){ throw new Ex("Not removed: " + e.ToString()); }
+        return e;
     }
 
 }}

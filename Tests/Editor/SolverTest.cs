@@ -65,12 +65,12 @@ public class SolverTest : TestBase{
         o( h, true );
     }
 
-    [Test] public void IgnoreHeuristic(){
-        bool h = false; x.brfs = true;
-        x.Next(new Inc(), new Goal<Agent>(
-            x => false, x => { h = true; return 0f; }));
-        o( h, false );
-    }
+    //[Test] public void IgnoreHeuristic(){
+    //    bool h = false; x.brfs = true;
+    //    x.Next(new Inc(), new Goal<Agent>(
+    //        x => false, x => { h = true; return 0f; }));
+    //    o( h, false );
+    //}
 
     // Iterate -----------------------------------------------------
 
