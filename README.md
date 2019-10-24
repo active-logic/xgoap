@@ -35,20 +35,20 @@ For Unity 3D:
 
 ## Getting started
 
-For planning you need a model (Agent), a goal and, if available, a heuristic. I will use [Brent Owens' woodcutter](https://gamedevelopment.tutsplus.com/tutorials/goal-oriented-action-planning-for-a-smarter-ai--cms-20793) agent as an example.
+Planning requires a *model* and a *goal*; if available, also provide a *heuristic*.
+I will borrow [Brent Owens' woodcutter](https://gamedevelopment.tutsplus.com/tutorials/goal-oriented-action-planning-for-a-smarter-ai--cms-20793) example.
 
-In this case, a woodcutter has the *GetAxe*, *ChopLog* and *CollectBranches* actions. Here's our version of the wood chopper model
+A woodcutter has the *GetAxe*, *ChopLog* and *CollectBranches* actions. Here is our implementation of the woodcutter planning model:
 
 ```cs
 using Activ.GOAP;
 
-[Serializable]  // Helps cloning model state
+[Serializable]  // Helps cloning model state (or implement `Clonable`)
 public class WoodChopper : Agent{
 
     public bool hasAxe, hasFirewood;
 
-    // TODO - should cache the list of actions
-    // Available actions may change as the model is modified
+    // In production, cache your action list(s) to avoid GC overheads
     public Func<Cost>[] Actions() => new Func<Cost>[]{
         ChopLog, GetAxe, CollectBranches
     };
