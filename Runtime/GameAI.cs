@@ -16,13 +16,13 @@ namespace Activ.GOAP{
 // NOTE: derives from MonoBehaviour when used with Unity3D
 // (see Runtime/Unity/GameAI.cs)
 public abstract partial class GameAI<T> : SolverOwner
-                                                    where T : Agent{
+                                             where T : Agent, new(){
 
     public bool verbose;
     public SolverParams config = new SolverParams();
     public Handlers policies = new Handlers();
     public Solver<T> solver;
-    public ActionHandler<object> handler = new ActionMap();
+    public ActionHandler<object, T> handler = new ActionMap<T>();
     public SolverStats stats => solver;
 
     // Decide a goal and (optionally) a heuristic
@@ -46,14 +46,14 @@ public abstract partial class GameAI<T> : SolverOwner
         solver = solver ?? new Solver<T>();
         solver.maxNodes = config.maxNodes;
         solver.maxIter  = config.maxIter;
-        if(handler is ActionMap m) m.verbose = verbose;
+        if(handler is ActionMap<T> m) m.verbose = verbose;
         handler.Effect( solver.isRunning
             ? solver.Iterate(config.frameBudget)?.Head()
             : solver.Next(model, Goal(), config.frameBudget)?.Head(),
             this);
         if(policies.OnResult(solver.state, ObjectName())){
             //ebug.Log($"Clear solver - {solver.state}");
-            solver = null;
+            solver.Reset();
         }
     }
 

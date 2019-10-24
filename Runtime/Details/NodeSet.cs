@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 
 namespace Activ.GOAP{
-public class NodeSet<T> : Base where T : Agent{
+public class NodeSet<T> : Base where T : Agent, new(){
 
     internal bool sorted;
     int capacity;
@@ -24,8 +24,8 @@ public class NodeSet<T> : Base where T : Agent{
 
     internal int count => list.Count;
 
-    public void Insert(Node<T> n){
-        if(!states.Add(n.state)) return;
+    public bool Insert(Node<T> n){
+        if(!states.Add(n.state)) return false;
         if(sorted){
             n.value = n.cost + (h != null ? h(n.state) : 0);
             // NOTE: In actual use, tested 4x faster than SortedSet;
@@ -40,11 +40,10 @@ public class NodeSet<T> : Base where T : Agent{
             // to combine this with a 'pop'
             for(int i = list.Count-1; i >= 0; i--){
                 if(n.value < list[i].value){
-                    list.Insert(i + 1, n);
-                    return;
+                    list.Insert(i + 1, n); return true;
                 }
             }
-        } list.Insert(0, n);
+        } list.Insert(0, n); return true;
     }
 
     public Node<T> Pop(){

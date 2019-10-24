@@ -1,6 +1,6 @@
 namespace Activ.GOAP{
-public interface ActionHandler<X>{
+public interface ActionHandler<X, T> where T : Agent, new(){
 
-    void Effect<T>(X action, GameAI<T> client) where T : Agent;
+    void Effect(X action, GameAI<T> client);
 
 }}
