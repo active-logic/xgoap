@@ -2,6 +2,6 @@
 namespace Activ.GOAP{
 public interface Parametric{
 
-    Action[] methods{ get; }
+    Action[] Functions();
 
 }}

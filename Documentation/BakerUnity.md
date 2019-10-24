@@ -8,9 +8,7 @@ Let's create a class named `BakerAI`, derived from `GameAI` (for Unity) and `Bak
 public class BakerAI : GameAI<Baker>, Baker.AI{ }
 ```
 
-We supply the `Goal<T> Goal()` and `T Model()` methods.
-
-Since we don't have a heuristic for the goal, we'll just supply the goal condition:
+We implement `Goal<T> Goal()` and `T Model()`; since we do not have a heuristic for the goal, only the goal condition is provided.
 
 ```cs
 override public Goal<Baker> Goal()

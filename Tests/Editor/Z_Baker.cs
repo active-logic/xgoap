@@ -12,7 +12,7 @@ public class Z_Baker : TestBase{
 
     [Test] public void ActionIntegrity(){
         var x = new Baker();
-        var M = ((Parametric)x).methods;
+        var M = ((Parametric)x).Functions();
         int t = 0;
         foreach(var m in M){
             m.action();
@@ -24,7 +24,7 @@ public class Z_Baker : TestBase{
     [Test] public void SolvabilityUsingActions(){
         var x = new Baker();
         o( x.temperature, 0 );
-        var act = ((Parametric)x).methods[3];
+        var act = ((Parametric)x).Functions()[3];
         o( x.temperature, 0 );
         act.action();
         o( x.temperature, 165 );

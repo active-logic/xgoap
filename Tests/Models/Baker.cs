@@ -30,7 +30,7 @@ namespace Activ.GOAP{
     Func<Cost>[] Agent.Actions()
     => state != Cooking.Burned ? new Func<Cost>[]{ Bake } : null;
 
-    Action[] Parametric.methods
+    Action[] Parametric.Functions()
     => state != Cooking.Burned ? CookingOptions() : null;
 
     Action[] CookingOptions(){

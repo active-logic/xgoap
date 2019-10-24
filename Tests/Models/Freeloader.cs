@@ -8,7 +8,7 @@ namespace Activ.GOAP{
 
     Func<Cost>[] Agent.Actions() => new Func<Cost>[]{ };
 
-    Action[] Parametric.methods => new Action[]{
+    Action[] Parametric.Functions() => new Action[]{
         new Action( () => Load(1000), () => {} )
     };
 

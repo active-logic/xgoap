@@ -5,7 +5,7 @@ using UnityEngine;
 
 /*
 How-to:
-1 - Implement the Goal() and Model() methods
+1 - Implement `Goal()` and `Model()`
 2 - Each action returned by the solver should match
 a public, no-arg function call supported by at least
 one component.

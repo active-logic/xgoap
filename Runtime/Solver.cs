@@ -75,15 +75,15 @@ public class Solver<T> : SolverStats where T : Agent{
 
     void ExpandMethods(Node<T> x, NodeSet<T> @out){
         if(!(x.state is Parametric p)) return;
-        if(p.methods == null) return;
-        for(int i = 0; i < p.methods.Length; i++){
+        if(p.Functions() == null) return;
+        for(int i = 0; i < p.Functions().Length; i++){
             var y = Clone(x.state);
             var q = y as Parametric;
-            var r = q.methods[i].action();
+            var r = q.Functions()[i].action();
             if(r.done){
                 if(!brfs && r.cost <= 0)
                     throw new Ex(ZERO_COST_ERR);
-                var effect = p.methods[i].effect;
+                var effect = p.Functions()[i].effect;
                 @out.Insert(new Node<T>(effect, y, x, r.cost));
             }
         }
