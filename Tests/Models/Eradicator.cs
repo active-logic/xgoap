@@ -21,7 +21,7 @@ namespace Activ.GOAP{
 
     public Cost Wipeout() => false;
 
-    Func<Cost>[] Agent.actions
+    Func<Cost>[] Agent.Actions()
     => new Func<Cost>[]{Eradicate, Dawdle, Wipeout};
 
     override public bool Equals(object other){

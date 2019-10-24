@@ -47,8 +47,9 @@ public class WoodChopper : Agent{
 
     public bool hasAxe, hasFirewood;
 
+    // TODO - should cache the list of actions
     // Available actions may change as the model is modified
-    public Func<Cost>[] actions => new Func<Cost>[]{
+    public Func<Cost>[] Actions() => new Func<Cost>[]{
         ChopLog, GetAxe, CollectBranches
     };
 

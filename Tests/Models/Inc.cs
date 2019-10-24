@@ -11,7 +11,7 @@ namespace Activ.GOAP{
         return true;
     }
 
-    Func<Cost>[] Agent.actions => new Func<Cost>[]{ Step };
+    Func<Cost>[] Agent.Actions() => new Func<Cost>[]{ Step };
 
     override public int GetHashCode() => pos;
 

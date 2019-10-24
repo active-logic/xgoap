@@ -36,7 +36,7 @@ public abstract partial class GameAI<T> : SolverOwner
 
     // This method should return false to indicate that the actor
     // is available for planning, true while the actor is effecting
-    // game actions
+    // game a-ctions
     virtual public bool IsActing() => false;
 
     public virtual void Update(){

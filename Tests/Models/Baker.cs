@@ -27,22 +27,22 @@ namespace Activ.GOAP{
         return true;
     }
 
-    Func<Cost>[] Agent.actions
+    Func<Cost>[] Agent.Actions()
     => state != Cooking.Burned ? new Func<Cost>[]{ Bake } : null;
 
     Action[] Parametric.methods
     => state != Cooking.Burned ? CookingOptions() : null;
 
     Action[] CookingOptions(){
-        List<Action> actions = new List<Action>();
+        List<Action> elems = new List<Action>();
         for(int i = 0; i <= MaxHeat; i += Step){
             var j = i;  // Do not capture the iterator!
-            actions.Add(new Action(
+            elems.Add(new Action(
                 () => SetTemperature(j),
                 () => client.SetTemperature(j)
             ));
         }
-        return actions.ToArray();
+        return elems.ToArray();
     }
 
     override public bool Equals(object other){

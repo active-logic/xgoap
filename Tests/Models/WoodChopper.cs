@@ -5,7 +5,7 @@ namespace Activ.GOAP{
 
     public bool hasAxe, hasFirewood;
 
-    public Func<Cost>[] actions => new Func<Cost>[]{
+    public Func<Cost>[] Actions() => new Func<Cost>[]{
         ChopLog, GetAxe, CollectBranches
     };
 

@@ -60,14 +60,14 @@ public class Solver<T> : SolverStats where T : Agent{
     }
 
     void ExpandActions(Node<T> x, NodeSet<T> @out){
-        if(x.state.actions == null) return;
-        for(int i = 0; i < x.state.actions.Length; i++){
+        if(x.state.Actions() == null) return;
+        for(int i = 0; i < x.state.Actions().Length; i++){
             var y = Clone(x.state);
-            var r = y.actions[i]();
+            var r = y.Actions()[i]();
             if(r.done){
                 if(!brfs && (r.cost <= 0))
                     throw new Ex(ZERO_COST_ERR);
-                var name = x.state.actions[i].Method.Name;
+                var name = x.state.Actions()[i].Method.Name;
                 @out.Insert(new Node<T>(name, y, x, r.cost));
             }
         }

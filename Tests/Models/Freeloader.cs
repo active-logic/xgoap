@@ -6,7 +6,7 @@ namespace Activ.GOAP{
 
     public Cost Load(int n) => 0;
 
-    Func<Cost>[] Agent.actions => new Func<Cost>[]{ };
+    Func<Cost>[] Agent.Actions() => new Func<Cost>[]{ };
 
     Action[] Parametric.methods => new Action[]{
         new Action( () => Load(1000), () => {} )

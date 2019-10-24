@@ -9,7 +9,7 @@ namespace Activ.GOAP{
 
     public Cost Tok(){ cost += 1; return true; }
 
-    Func<Cost>[] Agent.actions => new Func<Cost>[]{ Tik, Tok };
+    Func<Cost>[] Agent.Actions() => new Func<Cost>[]{ Tik, Tok };
 
     override public bool Equals(object that)
     => that != null && that is TikTok;

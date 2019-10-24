@@ -29,7 +29,7 @@ public class Z_Baker : TestBase{
         act.action();
         o( x.temperature, 165 );
 
-        ((Agent)x).actions[0]();
+        ((Agent)x).Actions()[0]();
         o( x.bake, 82 );
         o( Goal(x), true);
     }
