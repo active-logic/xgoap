@@ -6,7 +6,7 @@ using UnityEngine;
 #endif
 
 namespace Activ.GOAP{
-public class ActionMap : ActionHandler<object>{
+public class ActionMap : ActionHandler{
 
     static readonly object[] NoArg = new object[0];
     public bool verbose;
@@ -20,8 +20,7 @@ public class ActionMap : ActionHandler<object>{
         #endif
     }}
 
-    void ActionHandler<object>.Effect<T>(object action,
-                                         GameAI<T> client){
+    void ActionHandler.Effect<T>(object action, GameAI<T> client){
         switch(action){
         case string noArg:
             if(noArg == Solver<Agent>.INIT) return;
@@ -40,7 +39,7 @@ public class ActionMap : ActionHandler<object>{
         }
     }
 
-    MethodInfo Map<T>(string name, GameAI<T> client) where T: Agent{
+    MethodInfo Map<T>(string name, GameAI<T> client){
         map = map ?? new Dictionary<string, MethodInfo>();
         MethodInfo method;
         map.TryGetValue(name, out method);

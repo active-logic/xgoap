@@ -1,7 +1,6 @@
 using System;
 using NUnit.Framework;
 using NullRef = System.NullReferenceException;
-//using static Activ.GOAP.Solver<Activ.GOAP.Agent>;
 
 namespace Activ.GOAP{
 public class GoalTest : TestBase{

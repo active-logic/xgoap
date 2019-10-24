@@ -10,7 +10,7 @@ public class ActionMapTest : TestBase{
 
     [Test] public void Effect_with_invalid_type()
     => Assert.Throws<ArgumentException>(
-        () => ((ActionHandler<object>)x).Effect(
+        () => ((ActionHandler)x).Effect(
                                           0, (GameAI<Agent>)null) );
 
     [Test] public void Print_verbose(){

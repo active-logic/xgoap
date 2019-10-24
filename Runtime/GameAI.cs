@@ -15,15 +15,15 @@ when available for planning)
 namespace Activ.GOAP{
 // NOTE: derives from MonoBehaviour when used with Unity3D
 // (see Runtime/Unity/GameAI.cs)
-public abstract partial class GameAI<T> : SolverOwner
-                                                    where T : Agent{
+public abstract partial class GameAI<T> : SolverOwner{
 
-    public bool verbose;
-    public SolverParams config = new SolverParams();
-    public Handlers policies = new Handlers();
-    public Solver<T> solver;
-    public ActionHandler<object> handler = new ActionMap();
-    public SolverStats stats => solver;
+    public bool          verbose;
+    public Solver<T>     solver;
+    public SolverParams  config   = new SolverParams();
+    public Handlers      policies = new Handlers();
+    public ActionHandler handler  = new ActionMap();
+
+    public SolverStats   stats => solver;
 
     // Decide a goal and (optionally) a heuristic
     public abstract Goal<T> Goal();

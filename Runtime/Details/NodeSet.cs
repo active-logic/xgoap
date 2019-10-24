@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 
 namespace Activ.GOAP{
-public class NodeSet<T> : Base where T : Agent{
+public class NodeSet<T> : Base{
 
     internal bool sorted;
     int capacity;

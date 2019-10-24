@@ -7,13 +7,13 @@ using static Activ.GOAP.Solver<Activ.GOAP.Agent>;
 namespace Activ.GOAP{
 public class SolverTest : TestBase{
 
-    Solver<Agent> x;
-    Goal<Agent> unreachable = new Goal<Agent>(x => false),
-                stasis      = new Goal<Agent>(x => true),
-                hStasis     = new Goal<Agent>(x => true, x => 0f);
+    Solver<object> x;
+    Goal<object> unreachable = new Goal<object>(x => false),
+                stasis      = new Goal<object>(x => true),
+                hStasis     = new Goal<object>(x => true, x => 0f);
 
     [SetUp] public void Setup(){
-        x = new Solver<Agent>();
+        x = new Solver<object>();
         x.maxIter = x.maxNodes = 100;
     }
 
@@ -23,7 +23,7 @@ public class SolverTest : TestBase{
     => o( x.isRunning, false );
 
     [Test] public void IsRunning_false_after_solving(){
-        var g = new Goal<Agent>(x => true);
+        var g = new Goal<object>(x => true);
         var z = x.Next(new Idler(),
                        in g);
         o( x.isRunning, false);
@@ -60,14 +60,14 @@ public class SolverTest : TestBase{
 
     [Test] public void Next_use_heuristic(){
         bool h = false;
-        x.Next(new Inc(), new Goal<Agent>(
+        x.Next(new Inc(), new Goal<object>(
             x => false, x => { h = true; return 0f; }));
         o( h, true );
     }
 
     [Test] public void IgnoreHeuristic(){
         bool h = false; x.brfs = true;
-        x.Next(new Inc(), new Goal<Agent>(
+        x.Next(new Inc(), new Goal<object>(
             x => false, x => { h = true; return 0f; }));
         o( h, false );
     }

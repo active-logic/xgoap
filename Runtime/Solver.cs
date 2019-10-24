@@ -5,7 +5,7 @@ using InvOp   = System.InvalidOperationException;
 using S       = Activ.GOAP.PlanningState;
 
 namespace Activ.GOAP{
-public class Solver<T> : SolverStats where T : Agent{
+public class Solver<T> : SolverStats{
 
     public const string INIT   = "%init";
     const string ZERO_COST_ERR = "Zero cost op is not allowed",
@@ -60,14 +60,16 @@ public class Solver<T> : SolverStats where T : Agent{
     }
 
     void ExpandActions(Node<T> x, NodeSet<T> @out){
-        if(x.state.Actions() == null) return;
-        for(int i = 0; i < x.state.Actions().Length; i++){
+        if(!(x.state is Agent p)) return;
+        if(p.Actions() == null) return;
+        for(int i = 0; i < p.Actions().Length; i++){
             var y = Clone(x.state);
-            var r = y.Actions()[i]();
+            var q = y as Agent;
+            var r = q.Actions()[i]();
             if(r.done){
                 if(!brfs && (r.cost <= 0))
                     throw new Ex(ZERO_COST_ERR);
-                var name = x.state.Actions()[i].Method.Name;
+                var name = p.Actions()[i].Method.Name;
                 @out.Insert(new Node<T>(name, y, x, r.cost));
             }
         }
