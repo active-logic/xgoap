@@ -4,15 +4,20 @@ using System.Collections.Generic;
 namespace Activ.GOAP{
 public class NodeSet<T> : Base{
 
-    internal bool sorted;
-    int capacity;
+    float          precision = 0;
+    internal bool  sorted;
+    int            capacity;
     Func<T, float> h;
     HashSet<T>     states = new HashSet<T>();
     List<Node<T>>  list   = new List<Node<T>>();
 
     public NodeSet(T x, Func<T, float> h, bool sorted  = true,
-                                          int  capacity = 128){
-        this.h = h; this.sorted = sorted; this.capacity = capacity;
+                                          int  capacity = 128,
+                                          float precision = 0){
+        this.h = h;
+        this.sorted    = sorted;
+        this.capacity  = capacity;
+        this.precision = precision;
         states.Add(Assert(x, "Initial state"));
         list.Add(new Node<T>(Solver<T>.INIT, x));
     }
@@ -28,6 +33,7 @@ public class NodeSet<T> : Base{
         if(!states.Add(n.state)) return;
         if(sorted){
             n.value = n.cost + (h != null ? h(n.state) : 0);
+            if(precision > 0) n.value = (int)(n.value / precision);
             // NOTE: In actual use, tested 4x faster than SortedSet;
             //  Likely bottleneck with SortedSet is the API, not the
             // algorithm; SortedSet needs total, ordering:
@@ -39,7 +45,7 @@ public class NodeSet<T> : Base{
             // Also getting Min/Max item is cheap, but there's no way
             // to combine this with a 'pop'
             for(int i = list.Count-1; i >= 0; i--){
-                if(n.value < list[i].value){
+                if(n.value <= list[i].value){
                     list.Insert(i + 1, n);
                     return;
                 }

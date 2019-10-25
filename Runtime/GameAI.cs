@@ -44,8 +44,9 @@ public abstract partial class GameAI<T> : SolverOwner{
         var model = Model();
         if(model == null) return;
         solver = solver ?? new Solver<T>();
-        solver.maxNodes = config.maxNodes;
-        solver.maxIter  = config.maxIter;
+        solver.maxNodes  = config.maxNodes;
+        solver.maxIter   = config.maxIter;
+        solver.tolerance = config.tolerance;
         if(handler is ActionMap m) m.verbose = verbose;
         handler.Effect( solver.isRunning
             ? solver.Iterate(config.frameBudget)?.Head()

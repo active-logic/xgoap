@@ -11,9 +11,10 @@ public class Solver<T> : SolverStats{
     const string ZERO_COST_ERR = "Zero cost op is not allowed",
                  NO_INIT       = "Init state is null";
     //
-    public int  maxNodes = 1000,
-                maxIter  = 1000;
-    public bool brfs     = false;
+    public int   maxNodes  = 1000,
+                 maxIter   = 1000;
+    public float tolerance = 0f;
+    public bool  brfs      = false;
     public PlanningState state { get; private set; }
     public int  fxMaxNodes     { get; private set; }
     public int  I              { get; private set; }
@@ -28,7 +29,7 @@ public class Solver<T> : SolverStats{
         if(s == null) throw new NullRef(NO_INIT);
         initialState = s;
         goal         = g;
-        avail        = new NodeSet<T>(s, g.h, !brfs, maxNodes);
+        avail        = new NodeSet<T>(s, g.h, !brfs, maxNodes, tolerance);
         I            = 0;
         return Iterate(iter);
     }
