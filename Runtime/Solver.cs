@@ -11,10 +11,11 @@ public class Solver<T> : SolverStats where T : class{
     const string ZERO_COST_ERR = "Zero cost op is not allowed",
                  NO_INIT       = "Init state is null";
     //
-    public int   maxNodes  = 1000,
-                 maxIter   = 1000;
-    public float tolerance = 0f;
-    public bool  brfs      = false;
+    public int   maxNodes     = 1000,
+                 maxIter      = 1000;
+    public float tolerance    = 0f;
+    public bool  brfs         = false;
+    public bool  cleanActions = true;
     public PlanningState state { get; private set; }
     public int  fxMaxNodes     { get; private set; }
     public int  I              { get; private set; }
@@ -55,20 +56,29 @@ public class Solver<T> : SolverStats where T : class{
         if(avail.capacityExceeded){
             state = S.CapacityExceeded;
         }else{
-            state = avail ? (I < maxIter ? S.Running : S.MaxIterExceeded)
-                        : S.Failed;
+            state = avail
+                ? (I < maxIter ? S.Running : S.MaxIterExceeded)
+                : S.Failed;
         }
         return null;
     }
 
     void ExpandActions(Node<T> x, NodeSet<T> @out){
         if(!(x.state is Agent p)) return;
-        if(p.Actions() == null) return;
-        for(int i = 0; i < p.Actions().Length; i++){
-            var y = Clone(x.state);
+        var count = p.Actions()?.Length ?? 0;
+        if(count == 0) return;
+        // Initially assume a dirty state, which just menans that
+        // the canvas needs to be init'd from x.state.
+        bool dirty = true;
+        T y = null;
+        for(int i = 0; i < count; i++){
+            //y = Clone(x.state);
+            if(dirty){ y = Clone(x.state); dirty = false; }
             var q = y as Agent;
             var r = q.Actions()[i]();
             if(r.done){
+                // Since the action succeeded, state is now dirty.
+                dirty = true;
                 if(!brfs && (r.cost <= 0))
                     throw new Ex(ZERO_COST_ERR);
                 var name = p.Actions()[i].Method.Name;
@@ -95,8 +105,15 @@ public class Solver<T> : SolverStats where T : class{
         }
     }
 
-    internal T Clone(T x) => (x is Clonable<T> c)
-        ? c.Clone(storage = storage ?? c.Allocate())
-        : CloneUtil.DeepClone(x);
+    // TODO: strictly call to Clone() is not needed if an action has
+    // failed and did not touch the matching state. So, as an unsafe
+    // optimization, can skip that.
+    internal T Clone(T x){
+        if(x is Clonable<T> c){
+            return c.Clone(storage = storage ?? c.Allocate());
+        }else{
+            return CloneUtil.DeepClone(x);
+        }
+    }
 
 }}
