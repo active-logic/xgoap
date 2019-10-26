@@ -23,7 +23,9 @@ public class ActionMap : ActionHandler{
     void ActionHandler.Effect<T>(object action, GameAI<T> client){
         switch(action){
         case string noArg:
-            if(noArg == Solver<Agent>.INIT) return;
+            // TODO should be Solver.INIT but move that constant
+            // somewhere else first
+            if(noArg == "%init") return;
             Print($"No-arg: {noArg} @{frameCount}");
             Map(noArg, client).Invoke(client, NoArg);
             return;
@@ -39,7 +41,7 @@ public class ActionMap : ActionHandler{
         }
     }
 
-    MethodInfo Map<T>(string name, GameAI<T> client){
+    MethodInfo Map<T>(string name, GameAI<T> client) where T: class{
         map = map ?? new Dictionary<string, MethodInfo>();
         MethodInfo method;
         map.TryGetValue(name, out method);

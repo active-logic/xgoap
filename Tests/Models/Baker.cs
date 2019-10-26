@@ -16,7 +16,9 @@ namespace Activ.GOAP{
 
     [NonSerialized] AI client;
 
-    public Baker(AI client = null) => this.client = client;
+    public Baker(){}
+
+    public Baker(AI client) => this.client = client;
 
     public Cost Bake(){
         bake += (temperature / 2); return true;

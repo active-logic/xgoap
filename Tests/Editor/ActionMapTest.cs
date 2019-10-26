@@ -11,7 +11,7 @@ public class ActionMapTest : TestBase{
     [Test] public void Effect_with_invalid_type()
     => Assert.Throws<ArgumentException>(
         () => ((ActionHandler)x).Effect(
-                                          0, (GameAI<Agent>)null) );
+                                          0, (GameAI<T>)null) );
 
     [Test] public void Print_verbose(){
         x.verbose = true;
@@ -22,5 +22,7 @@ public class ActionMapTest : TestBase{
         x.verbose = false;
         x.Print("");
     }
+
+    class T{ public T(){} }
 
 }}

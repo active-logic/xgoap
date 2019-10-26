@@ -15,7 +15,8 @@ when available for planning)
 namespace Activ.GOAP{
 // NOTE: derives from MonoBehaviour when used with Unity3D
 // (see Runtime/Unity/GameAI.cs)
-public abstract partial class GameAI<T> : SolverOwner{
+public abstract partial class GameAI<T> : SolverOwner
+                                                  where T : class {
 
     public bool          verbose;
     public Solver<T>     solver;

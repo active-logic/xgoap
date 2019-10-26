@@ -1,7 +1,8 @@
 namespace Activ.GOAP{
-public interface Clonable{
+public interface Clonable<T>{
 
-    object Clone();
+    T Allocate ();
 
-}
-}
+    T Clone    (T storage);
+
+}}

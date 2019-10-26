@@ -5,7 +5,7 @@ using InvOp   = System.InvalidOperationException;
 using S       = Activ.GOAP.PlanningState;
 
 namespace Activ.GOAP{
-public class Solver<T> : SolverStats{
+public class Solver<T> : SolverStats where T : class{
 
     public const string INIT   = "%init";
     const string ZERO_COST_ERR = "Zero cost op is not allowed",
@@ -19,6 +19,7 @@ public class Solver<T> : SolverStats{
     public int  fxMaxNodes     { get; private set; }
     public int  I              { get; private set; }
     //
+    T          storage;
     T          initialState;
     Goal<T>    goal;
     NodeSet<T> avail = null;
@@ -71,7 +72,8 @@ public class Solver<T> : SolverStats{
                 if(!brfs && (r.cost <= 0))
                     throw new Ex(ZERO_COST_ERR);
                 var name = p.Actions()[i].Method.Name;
-                @out.Insert(new Node<T>(name, y, x, r.cost));
+                if(@out.Insert(new Node<T>(name, y, x, r.cost)))
+                    storage = null;
             }
         }
     }
@@ -87,12 +89,14 @@ public class Solver<T> : SolverStats{
                 if(!brfs && r.cost <= 0)
                     throw new Ex(ZERO_COST_ERR);
                 var effect = p.Functions()[i].effect;
-                @out.Insert(new Node<T>(effect, y, x, r.cost));
+                if(@out.Insert(new Node<T>(effect, y, x, r.cost)))
+                    storage = null;
             }
         }
     }
 
-    internal static T Clone(T x)
-    => (x is Clonable c) ? (T)c.Clone() : CloneUtil.DeepClone(x);
+    internal T Clone(T x) => (x is Clonable<T> c)
+        ? c.Clone(storage = storage ?? c.Allocate())
+        : CloneUtil.DeepClone(x);
 
 }}
