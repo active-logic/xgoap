@@ -80,25 +80,25 @@ public class SolverTest : TestBase{
     [Test] public void Iterate_MaxIterExceeded(){
         x.maxIter = 2;
         x.Next(new Inc(), unreachable, 10);
-        o(x.state == PlanningState.MaxIterExceeded);
+        o(x.status == PlanningState.MaxIterExceeded);
         var z = x.Iterate();
         o(z, null);
     }
 
     [Test] public void Iterate_no_solution(){
         x.Next(new SixShot(), unreachable, 4);
-        o(x.state != PlanningState.MaxIterExceeded);
+        o(x.status != PlanningState.MaxIterExceeded);
         var z = x.Iterate(4);
         o(z, null);
-        o(x.state, PlanningState.Failed);
+        o(x.status, PlanningState.Failed);
     }
 
     [Test] public void Iterate_stalling(){
         x.maxIter = 8;
         x.Next(new Inc(), unreachable, 5);
-        o(x.state != PlanningState.MaxIterExceeded);
+        o(x.status != PlanningState.MaxIterExceeded);
         var z = x.Iterate(5);
-        o(x.state == PlanningState.MaxIterExceeded);
+        o(x.status == PlanningState.MaxIterExceeded);
     }
 
     // Expansions --------------------------------------------------

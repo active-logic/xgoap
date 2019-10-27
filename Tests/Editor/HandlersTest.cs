@@ -6,7 +6,7 @@ using UnityEngine.TestTools;
 #endif
 
 namespace Activ.GOAP{
-public class TestHandlers : TestBase{
+public class HandlersTest : TestBase{
 
     Handlers x;
 

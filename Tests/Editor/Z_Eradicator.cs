@@ -17,7 +17,7 @@ public class Z_Eradicator : TestBase{
         var s = p.Next(x, new Goal<Eradicator>(z => z.rats == -1));
         o( s, null);
         // TODO - MaxIterExceeded was expected here
-        o(p.state == PlanningState.Failed);
+        o(p.status == PlanningState.Failed);
     }
 
 }}

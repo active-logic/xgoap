@@ -33,9 +33,9 @@ public class GameAITest : TestBase{
         o( x.Model().state == Baker.Cooking.Raw );
         x.Update();
         o( x.solver != null);  // TODO this should not be the case
-        o( x.solver.state, PlanningState.Done);
+        o( x.solver.status, PlanningState.Done);
         x.Update();
-        o( x.solver.state, PlanningState.Done);
+        o( x.solver.status, PlanningState.Done);
         o( x.Model().ToString(), "Baker[ Cooked at 165℃ ]");
     }
 
@@ -53,11 +53,11 @@ public class GameAITest : TestBase{
     [Test] public void Update_and_keep_running(){
         x.verbose = true;
         x.Update();
-        o( x.solver.state, PlanningState.Running);
+        o( x.solver.status, PlanningState.Running);
         x.Update();
         x.config.frameBudget = 32;
         x.Update();
-        o( x.solver.state, PlanningState.Done);
+        o( x.solver.status, PlanningState.Done);
     }
 
     // Transitional --------------------------------------------

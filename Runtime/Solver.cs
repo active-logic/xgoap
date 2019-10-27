@@ -16,47 +16,48 @@ public class Solver<T> : SolverStats where T : class{
     public float tolerance    = 0f;
     public bool  brfs         = false;
     public bool  cleanActions = true;
-    public PlanningState state { get; private set; }
+    public PlanningState status { get; private set; }
     public int  fxMaxNodes     { get; private set; }
     public int  I              { get; private set; }
     //
-    T          storage;
-    T          initialState;
-    Goal<T>    goal;
-    NodeSet<T> avail = null;
+    T           initialState;
+    Dish<T>     dish;
+    Goal<T>     goal;
+    NodeSet<T>  avail = null;
 
-    public bool isRunning => state == S.Running;
+    public bool isRunning => status == S.Running;
 
     public Node<T> Next(T s, in Goal<T> g, int iter=-1){
         if(s == null) throw new NullRef(NO_INIT);
+        if(dish == null) dish = (s is Clonable<T> && cleanActions)
+            ? (Dish<T>)new DirtyDish<T>() : new PolyDish<T>();
         initialState = s;
         goal         = g;
-        avail        = new NodeSet<T>(s, g.h, !brfs, maxNodes, tolerance);
         I            = 0;
+        avail        = new NodeSet<T>(s, g.h, !brfs, maxNodes,
+                                                     tolerance);
         return Iterate(iter);
     }
 
     public Node<T> Iterate(int iter=-1){
         if(initialState == null) throw new InvOp(NO_INIT);
-        if(state == S.MaxIterExceeded) return null;
+        if(status == S.MaxIterExceeded) return null;
         if(iter == -1) iter = maxIter;
         int i = 0;
         while(avail && i++ < iter && I++ < maxIter){
-            //rint($"# {I} (avail: {avail.count}) --------------- ");
             var current = avail.Pop();
             if(goal.match(current.state)){
-                state = S.Done;
+                status = S.Done;
                 return current;
             }
             ExpandActions(current, avail);
             ExpandMethods(current, avail);
             if(avail.count > fxMaxNodes) fxMaxNodes = avail.count;
-            //rint("Avail: " + avail.count);
         }
         if(avail.capacityExceeded){
-            state = S.CapacityExceeded;
+            status = S.CapacityExceeded;
         }else{
-            state = avail
+            status = avail
                 ? (I < maxIter ? S.Running : S.MaxIterExceeded)
                 : S.Failed;
         }
@@ -67,52 +68,41 @@ public class Solver<T> : SolverStats where T : class{
         if(!(x.state is Agent p)) return;
         var count = p.Actions()?.Length ?? 0;
         if(count == 0) return;
-        // Initially assume a dirty state, which just menans that
-        // the canvas needs to be init'd from x.state.
-        bool dirty = true;
+        dish.Init(x.state);
         T y = null;
         for(int i = 0; i < count; i++){
-            //y = Clone(x.state);
-            if(dirty){ y = Clone(x.state); dirty = false; }
+            y = dish.Avail();
             var q = y as Agent;
             var r = q.Actions()[i]();
             if(r.done){
-                // Since the action succeeded, state is now dirty.
-                dirty = true;
+                dish.Invalidate();
                 if(!brfs && (r.cost <= 0))
                     throw new Ex(ZERO_COST_ERR);
                 var name = p.Actions()[i].Method.Name;
                 if(@out.Insert(new Node<T>(name, y, x, r.cost)))
-                    storage = null;
+                    dish.Consume();
             }
         }
     }
 
     void ExpandMethods(Node<T> x, NodeSet<T> @out){
         if(!(x.state is Parametric p)) return;
-        if(p.Functions() == null) return;
-        for(int i = 0; i < p.Functions().Length; i++){
-            var y = Clone(x.state);
+        var count = p.Functions()?.Length ?? 0;
+        if(count == 0) return;
+        dish.Init(x.state);
+        T y = null;
+        for(int i = 0; i < count; i++){
+            y = dish.Avail();
             var q = y as Parametric;
             var r = q.Functions()[i].action();
             if(r.done){
+                dish.Invalidate();
                 if(!brfs && r.cost <= 0)
                     throw new Ex(ZERO_COST_ERR);
                 var effect = p.Functions()[i].effect;
                 if(@out.Insert(new Node<T>(effect, y, x, r.cost)))
-                    storage = null;
+                    dish.Consume();
             }
-        }
-    }
-
-    // TODO: strictly call to Clone() is not needed if an action has
-    // failed and did not touch the matching state. So, as an unsafe
-    // optimization, can skip that.
-    internal T Clone(T x){
-        if(x is Clonable<T> c){
-            return c.Clone(storage = storage ?? c.Allocate());
-        }else{
-            return CloneUtil.DeepClone(x);
         }
     }
 

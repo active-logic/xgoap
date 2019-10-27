@@ -48,12 +48,13 @@ public abstract partial class GameAI<T> : SolverOwner
         solver.maxNodes  = config.maxNodes;
         solver.maxIter   = config.maxIter;
         solver.tolerance = config.tolerance;
+        solver.cleanActions = config.safeActions;
         if(handler is ActionMap m) m.verbose = verbose;
         handler.Effect( solver.isRunning
             ? solver.Iterate(config.frameBudget)?.Head()
             : solver.Next(model, Goal(), config.frameBudget)?.Head(),
             this);
-        if(policies.OnResult(solver.state, ObjectName())){
+        if(policies.OnResult(solver.status, ObjectName())){
             //ebug.Log($"Clear solver - {solver.state}");
             solver = null;
         }

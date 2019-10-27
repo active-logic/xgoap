@@ -5,9 +5,9 @@ namespace Activ.GOAP{
 
 public interface SolverStats{
 
-    PlanningState state { get; }
-    int  fxMaxNodes     { get; }
-    int  I              { get; }
+    PlanningState status { get; }
+    int  fxMaxNodes      { get; }
+    int  I               { get; }
 
 }
 
