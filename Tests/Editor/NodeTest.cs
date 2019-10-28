@@ -56,9 +56,11 @@ public class NodeTest : TestBase{
 
     [Test] public void Head2(){
         var x = new Node<object>(INITIAL_STATE, new object());
-        var y = new Node<object>(ACTION_1, new object(), x);
-        o( y.Head(), ACTION_1);
+        var y = new Node<object>(Costly, new object(), x);
+        o( y.Head(), "Costly");
     }
+
+    Cost Costly() => true;
 
     [Test] public void Path2(){
         var x = new Node<object>(INITIAL_STATE, new object());

@@ -60,7 +60,8 @@ public class Solver<T> : SolverStats where T : class{
 
     void ExpandActions(Node<T> x, NodeSet<T> @out){
         if(!(x.state is Agent p)) return;
-        var count = p.Actions()?.Length ?? 0;
+        var actions = p.Actions();
+        var count = actions?.Length ?? 0;
         if(count == 0) return;
         dish.Init(x.state);
         T y = null;
@@ -70,11 +71,9 @@ public class Solver<T> : SolverStats where T : class{
             var r = q.Actions()[i]();
             if(r.done){
                 dish.Invalidate();
-                if(!brfs && (r.cost <= 0))
-                    throw new Ex(ZERO_COST_ERR);
-                var name = p.Actions()[i].Method.Name;
-                if(@out.Insert(new Node<T>(name, y, x, r.cost)))
-                    dish.Consume();
+                if(!brfs && (r.cost<=0)) throw new Ex(ZERO_COST_ERR);
+                if(@out.Insert(new Node<T>(
+                        actions[i], y, x, r.cost))) dish.Consume();
             }
         }
     }

@@ -3,19 +3,32 @@ using System;
 namespace Activ.GOAP{
 public class Node<T> : Base{
 
-    public readonly Node<T> prev;
-    public readonly object  action;
-    public readonly T       state;
-    public float            value;
+    public readonly Node<T>    prev;
+    public readonly Func<Cost> source;
+    public readonly T          state;
+    public float value;
     public float cost{ get; private set; }
+    readonly object  effect;
 
-    public Node(object action, T result, Node<T> prev = null,
-                                         float   cost = 0f){
-        this.action = Assert(action, "action");
-        this.state  = Assert(result, "result");
+    public Node(Func<Cost> planningAction, T result,
+                Node<T> prev = null, float   cost = 0f){
+        this.source = Assert(planningAction, "Action");;
+        this.state  = Assert(result, "Result");
         this.prev   = prev;
         this.cost   = cost + (prev?.cost ?? 0f);
     }
+
+    // TODO - object should be System.Action and separate
+    // constructor for init state if wanted
+    public Node(object effect, T result, Node<T> prev = null,
+                                         float   cost = 0f){
+        this.effect = Assert(effect, "Action");
+        this.state  = Assert(result, "Result");
+        this.prev   = prev;
+        this.cost   = cost + (prev?.cost ?? 0f);
+    }
+
+    public object action => effect ?? source.Method.Name;
 
     public static implicit operator string(Node<T> x)
     => (string)(x.Head());
@@ -23,9 +36,8 @@ public class Node<T> : Base{
     public static implicit operator Delegate(Node<T> x)
     => (Delegate)(x.Head());
 
-    // Regress to the next action; root (init state) does not count.
-    public object Head()
-    => prev?.prev == null ? action : prev.Head();
+    // Regress to first applicable action; root (init state) excl.
+    public object Head() => prev?.prev==null ? action : prev.Head();
 
     public Node<T>[] Path(int n = 1){
         Node<T>[] @out;
@@ -46,7 +58,7 @@ public class Node<T> : Base{
     }
 
     override public string ToString()
-    => $"[{value:0.0} :: {action} => {state}]"
+    => $"[{value:0.0} :: {effect} => {state}]"
                                 .Replace("System.Object", "object");
 
 }}
