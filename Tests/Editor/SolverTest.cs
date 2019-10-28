@@ -18,6 +18,18 @@ public class SolverTest : TestBase{
         x.maxIter = x.maxNodes = 100;
     }
 
+    // Defaults ----------------------------------------------------
+
+    // Important because tolerance > 0 may affect search result
+    [Test] public void ZeroToleranceDefault() => x.tolerance = 0;
+
+    // Unsafe mode should be enabled by user once they figure out
+    // what it means
+    [Test] public void SafeDefault() => x.safe = true;
+
+    // Default to A*, not breadth-first
+    [Test] public void BRFSDefault() => x.brfs = false;
+
     // isRunning ---------------------------------------------------
 
     [Test] public void IsRunning_false_on_construct()

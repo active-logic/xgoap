@@ -10,11 +10,11 @@ public class Solver<T> : SolverStats where T : class{
 
     public int   maxNodes = 1000, maxIter = 1000;
     public float tolerance;
-    public bool  brfs, cleanActions = true;
+    public bool  brfs, safe = true;
     public PlanningState status { get; private set; }
+    // TODO terrible name
     public int  fxMaxNodes      { get; private set; }
     public int  I               { get; private set; }
-    //
     T           initialState;
     Dish<T>     dish;
     Goal<T>     goal;
@@ -24,8 +24,7 @@ public class Solver<T> : SolverStats where T : class{
 
     public Node<T> Next(T s, in Goal<T> g, int iter=-1){
         if(s == null) throw new NullRef(NO_INIT_ERR);
-        if(dish == null) dish = (s is Clonable<T> && cleanActions)
-            ? (Dish<T>)new DirtyDish<T>() : new PolyDish<T>();
+        dish = dish ?? Dish<T>.Create(s, safe);
         initialState = s;
         goal         = g;
         I            = 0;

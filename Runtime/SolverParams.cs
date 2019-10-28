@@ -5,6 +5,6 @@ namespace Activ.GOAP{
     public int   maxNodes    = 1000;
     public int   maxIter     = 1000;
     public float tolerance   = 0;
-    public bool  safeActions = false;
+    public bool  safe        = true;
 
 }}

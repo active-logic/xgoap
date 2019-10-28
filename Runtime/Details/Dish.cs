@@ -13,6 +13,10 @@ internal abstract class Dish<T> where T : class{
     public virtual void Invalidate (){}
     public void Consume    () => state = null;
 
+    public static Dish<T> Create(T s, bool safe)
+    => (s is Clonable<T> && !safe) ? (Dish<T>)new DirtyDish<T>()
+                                   : new PolyDish<T>();
+
 }
 
 // Dirty dish assumes failing actions do not mutate model state

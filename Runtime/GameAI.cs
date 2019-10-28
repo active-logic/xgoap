@@ -29,15 +29,14 @@ public abstract partial class GameAI<T> : SolverOwner
     // Decide a goal and (optionally) a heuristic
     public abstract Goal<T> Goal();
 
-    // Instantiates or updates the model using relevant world states
+    // Instantiate a model from relevant world states
     public abstract T Model();
 
     // Override if you have a behavior while idle
     virtual public void Idle(){ }
 
-    // This method should return false to indicate that the actor
-    // is available for planning, true while the actor is effecting
-    // game a-ctions
+    // Return false to indicate the actor are available for
+    // planning, true while the actor are effecting game actions
     virtual public bool IsActing() => false;
 
     public virtual void Update(){
@@ -48,14 +47,13 @@ public abstract partial class GameAI<T> : SolverOwner
         solver.maxNodes  = config.maxNodes;
         solver.maxIter   = config.maxIter;
         solver.tolerance = config.tolerance;
-        solver.cleanActions = config.safeActions;
+        solver.safe = config.safe;
         if(handler is ActionMap m) m.verbose = verbose;
         handler.Effect( solver.isRunning
             ? solver.Iterate(config.frameBudget)?.Head()
             : solver.Next(model, Goal(), config.frameBudget)?.Head(),
             this);
         if(policies.OnResult(solver.status, ObjectName())){
-            //ebug.Log($"Clear solver - {solver.state}");
             solver = null;
         }
     }
