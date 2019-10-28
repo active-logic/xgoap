@@ -32,14 +32,15 @@ namespace Activ.GOAP{
     Func<Cost>[] Agent.Actions()
     => state != Cooking.Burned ? new Func<Cost>[]{ Bake } : null;
 
-    Action[] Parametric.Functions()
+    Complex[] Parametric.Functions()
     => state != Cooking.Burned ? CookingOptions() : null;
 
-    Action[] CookingOptions(){
-        List<Action> elems = new List<Action>();
+    // TODO - very slow. Doesn't matter
+    Complex[] CookingOptions(){
+        List<Complex> elems = new List<Complex>();
         for(int i = 0; i <= MaxHeat; i += Step){
             var j = i;  // Do not capture the iterator!
-            elems.Add(new Action(
+            elems.Add(new Complex(
                 () => SetTemperature(j),
                 () => client.SetTemperature(j)
             ));

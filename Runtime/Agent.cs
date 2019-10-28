@@ -7,7 +7,7 @@ public interface Agent{
 }
 
 public interface Parametric{
-    Action[] Functions();
+    Complex[] Functions();
 }
 
 public interface Clonable<T>{

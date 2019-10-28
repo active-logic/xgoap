@@ -6,10 +6,8 @@ namespace Activ.GOAP{
 
     public Cost Load(int n) => 0;
 
-    //Func<Cost>[] Agent.Actions() => new Func<Cost>[]{ };
-
-    Action[] Parametric.Functions() => new Action[]{
-        new Action( () => Load(1000), () => {} )
+    Complex[] Parametric.Functions() => new Complex[]{
+        new Complex( () => Load(1000), () => {} )
     };
 
     override public bool Equals(object that)
