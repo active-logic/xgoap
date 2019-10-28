@@ -11,10 +11,6 @@ public interface SolverStats{
 
 }
 
-public interface SolverOwner{
-
-    SolverStats stats{ get; }
+public interface SolverOwner{ SolverStats stats{ get; } }
 
 }
-
-}  // Activ.GOAP
