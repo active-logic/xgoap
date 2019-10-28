@@ -3,22 +3,17 @@ using NullRef = System.NullReferenceException;
 using Ex      = System.Exception;
 using InvOp   = System.InvalidOperationException;
 using S       = Activ.GOAP.PlanningState;
+using static Activ.GOAP.Strings;
 
 namespace Activ.GOAP{
 public class Solver<T> : SolverStats where T : class{
 
-    public const string INIT   = "%init";
-    const string ZERO_COST_ERR = "Zero cost op is not allowed",
-                 NO_INIT       = "Init state is null";
-    //
-    public int   maxNodes     = 1000,
-                 maxIter      = 1000;
-    public float tolerance    = 0f;
-    public bool  brfs         = false;
-    public bool  cleanActions = true;
+    public int   maxNodes = 1000, maxIter = 1000;
+    public float tolerance;
+    public bool  brfs, cleanActions = true;
     public PlanningState status { get; private set; }
-    public int  fxMaxNodes     { get; private set; }
-    public int  I              { get; private set; }
+    public int  fxMaxNodes      { get; private set; }
+    public int  I               { get; private set; }
     //
     T           initialState;
     Dish<T>     dish;
@@ -28,7 +23,7 @@ public class Solver<T> : SolverStats where T : class{
     public bool isRunning => status == S.Running;
 
     public Node<T> Next(T s, in Goal<T> g, int iter=-1){
-        if(s == null) throw new NullRef(NO_INIT);
+        if(s == null) throw new NullRef(NO_INIT_ERR);
         if(dish == null) dish = (s is Clonable<T> && cleanActions)
             ? (Dish<T>)new DirtyDish<T>() : new PolyDish<T>();
         initialState = s;
@@ -40,7 +35,7 @@ public class Solver<T> : SolverStats where T : class{
     }
 
     public Node<T> Iterate(int iter=-1){
-        if(initialState == null) throw new InvOp(NO_INIT);
+        if(initialState == null) throw new InvOp(NO_INIT_ERR);
         if(status == S.MaxIterExceeded) return null;
         if(iter == -1) iter = maxIter;
         int i = 0;

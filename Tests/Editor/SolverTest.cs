@@ -3,6 +3,7 @@ using NullRef = System.NullReferenceException;
 using Ex      = System.Exception;
 using InvOp   = System.InvalidOperationException;
 using static Activ.GOAP.Solver<Activ.GOAP.Agent>;
+using static Activ.GOAP.Strings;
 
 namespace Activ.GOAP{
 public class SolverTest : TestBase{
@@ -46,17 +47,17 @@ public class SolverTest : TestBase{
         () => x.Next((Agent)null, unreachable) );
 
     [Test] public void Next_start_at_goal()
-    => o ( (string)x.Next(new Idler(), stasis), INIT );
+    => o ( (string)x.Next(new Idler(), stasis), INITIAL_STATE );
 
     [Test] public void Next_start_at_goal_with_heuristic()
     => o ( (string)x.Next( new Idler(),
-                   hStasis), INIT );
+                   hStasis), INITIAL_STATE );
 
     [Test] public void Next_OTPoneyPassThrough()
-    => o( (string)x.Next(new OTPoney(), stasis), INIT );
+    => o( (string)x.Next(new OTPoney(), stasis), INITIAL_STATE );
 
     [Test] public void Next_HeuristicOTPoneyPassThrough()
-    => o( (string)x.Next(new OTPoney(), hStasis), INIT );
+    => o( (string)x.Next(new OTPoney(), hStasis), INITIAL_STATE );
 
     [Test] public void Next_use_heuristic(){
         bool h = false;

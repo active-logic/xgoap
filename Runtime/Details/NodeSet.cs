@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using static Activ.GOAP.Strings;
 
 namespace Activ.GOAP{
 public class NodeSet<T> : Base{
@@ -19,8 +20,7 @@ public class NodeSet<T> : Base{
         this.capacity  = capacity;
         this.precision = precision;
         states.Add(Assert(x, "Initial state"));
-        // TODO INIT const
-        list.Add(new Node<T>("%init", x));
+        list.Add(new Node<T>(INITIAL_STATE, x));
     }
 
     public bool capacityExceeded => count > capacity;

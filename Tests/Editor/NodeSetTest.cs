@@ -1,5 +1,6 @@
 using System; using NUnit.Framework;
 using static Activ.GOAP.Solver<Activ.GOAP.Idler>;
+using static Activ.GOAP.Strings;
 
 namespace Activ.GOAP{
 public class NodeSetTest : TestBase{
@@ -38,7 +39,7 @@ public class NodeSetTest : TestBase{
 
     [Test] public void Pop(){
         var z = x.Pop(); o( x.count, 0 ); o( z.state is Idler );
-        o( z.action, INIT);
+        o( z.action, INITIAL_STATE);
     }
 
     class T{

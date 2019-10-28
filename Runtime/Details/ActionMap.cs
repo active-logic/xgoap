@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using static Activ.GOAP.Strings;
 #if UNITY_2018_1_OR_NEWER
 using UnityEngine;
 #endif
@@ -23,9 +24,7 @@ public class ActionMap : ActionHandler{
     void ActionHandler.Effect<T>(object action, GameAI<T> client){
         switch(action){
         case string noArg:
-            // TODO should be Solver.INIT but move that constant
-            // somewhere else first
-            if(noArg == "%init") return;
+            if(noArg == INITIAL_STATE) return;
             Print($"No-arg: {noArg} @{frameCount}");
             Map(noArg, client).Invoke(client, NoArg);
             return;
@@ -37,7 +36,7 @@ public class ActionMap : ActionHandler{
             client.Idle();
             return;
         default:
-            throw new ArgumentException($"Unknown arg: " + action);
+            throw new ArgumentException(UNKNOWN_ARG + action);
         }
     }
 

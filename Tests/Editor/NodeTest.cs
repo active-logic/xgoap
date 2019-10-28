@@ -2,6 +2,7 @@ using System;
 using NUnit.Framework;
 using NullRef = System.NullReferenceException;
 using static Activ.GOAP.Solver<Activ.GOAP.Agent>;
+using static Activ.GOAP.Strings;
 
 namespace Activ.GOAP{
 public class NodeTest : TestBase{
@@ -54,46 +55,52 @@ public class NodeTest : TestBase{
     }
 
     [Test] public void Head2(){
-        var x = new Node<object>(INIT, new object());
+        var x = new Node<object>(INITIAL_STATE, new object());
         var y = new Node<object>(ACTION_1, new object(), x);
         o( y.Head(), ACTION_1);
     }
 
     [Test] public void Path2(){
-        var x = new Node<object>(INIT, new object());
+        var x = new Node<object>(INITIAL_STATE, new object());
         var y = new Node<object>(ACTION_1, new object(), x);
         var path = y.Path();
-        o( path[0].ToString(), "[0.0 :: %init => object]");
-        o( path[1].ToString(), "[0.0 :: Test => object]");
+        o( path[0].ToString(),
+            $"[0.0 :: {INITIAL_STATE} => object]");
+        o( path[1].ToString(),
+            "[0.0 :: Test => object]");
     }
 
     [Test] public void Head3(){
-        var x = new Node<object>(INIT, new object());
+        var x = new Node<object>(INITIAL_STATE, new object());
         var y = new Node<object>(ACTION_1, new object(), x);
         var z = new Node<object>(ACTION_2, new object(), y);
         o( z.Head(), ACTION_1);
     }
 
     [Test] public void Path3(){
-        var x = new Node<object>(INIT, new object());
+        var x = new Node<object>(INITIAL_STATE, new object());
         var y = new Node<object>(ACTION_1, new object(), x);
         var z = new Node<object>(ACTION_2, new object(), y);
         var path = z.Path();
-        o( path[0].ToString(), "[0.0 :: %init => object]");
-        o( path[1].ToString(), "[0.0 :: Test => object]");
-        o( path[2].ToString(), "[0.0 :: Test => object]");
+        o( path[0].ToString(),
+            $"[0.0 :: {INITIAL_STATE} => object]");
+        o( path[1].ToString(),
+            "[0.0 :: Test => object]");
+        o( path[2].ToString(),
+            "[0.0 :: Test => object]");
     }
 
     [Test] public void PathToString(){
-        var x = new Node<object>(INIT, new object());
+        var x = new Node<object>(INITIAL_STATE, new object());
         var y = new Node<object>(ACTION_1, new object(), x);
         var path = y.PathToString();
         o(path, "%init\nTest\n");
     }
 
     [Test] public void String(){
-        var x = new Node<object>(INIT, new object());
-        o( x.ToString(), "[0.0 :: %init => object]" );
+        var x = new Node<object>(INITIAL_STATE, new object());
+        o( x.ToString(),
+            $"[0.0 :: {INITIAL_STATE} => object]" );
     }
 
 }}
