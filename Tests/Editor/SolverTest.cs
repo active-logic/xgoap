@@ -10,8 +10,8 @@ public class SolverTest : TestBase{
 
     Solver<object> x;
     Goal<object> unreachable = new Goal<object>(x => false),
-                stasis      = new Goal<object>(x => true),
-                hStasis     = new Goal<object>(x => true, x => 0f);
+                 stasis      = new Goal<object>(x => true),
+                 hStasis     = new Goal<object>(x => true, x => 0f);
 
     [SetUp] public void Setup(){
         x = new Solver<object>();

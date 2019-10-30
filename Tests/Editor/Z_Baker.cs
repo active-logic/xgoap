@@ -10,26 +10,26 @@ public class Z_Baker : TestBase{
         o( Goal(x), true);
     }
 
-    [Test] public void ActionIntegrity(){
+    [Test] public void OptionIntegrity(){
         var x = new Baker();
-        var M = ((Parametric)x).Functions();
+        var M = ((Mapped)x).Options();
         int t = 0;
         foreach(var m in M){
-            m.action();
+            m.option();
             o(x.temperature, t);
             t += Baker.Step;
         }
     }
 
-    [Test] public void SolvabilityUsingActions(){
+    [Test] public void SolvabilityUsingOptions(){
         var x = new Baker();
         o( x.temperature, 0 );
-        var act = ((Parametric)x).Functions()[3];
+        var act = ((Mapped)x).Options()[3];
         o( x.temperature, 0 );
-        act.action();
+        act.option();
         o( x.temperature, 165 );
 
-        ((Agent)x).Actions()[0]();
+        ((Agent)x).Options()[0]();
         o( x.bake, 82 );
         o( Goal(x), true);
     }

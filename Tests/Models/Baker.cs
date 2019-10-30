@@ -1,24 +1,27 @@
 using System;
-using System.Collections.Generic;
+//using System.Collections.Generic;
+//using UnityEngine;
 
 namespace Activ.GOAP{
-[Serializable] public class Baker : Agent, Parametric{
+[Serializable] public class Baker : Agent, Mapped{
 
+    public enum Cooking{Raw, Cooked, Burned}
+    //
     public const int Step    = 55;
     public const int MaxHeat = 200;
-    public enum Cooking{Raw, Cooked, Burned}
     public int   temperature = 0;
     public float bake;
-
-    public Cooking state => bake < 80  ? Cooking.Raw :
-                            bake < 120 ? Cooking.Cooked :
-                                         Cooking.Burned;
-
+    //
+    [NonSerialized] (Option, Action)[] options;
     [NonSerialized] AI client;
 
     public Baker(){}
 
     public Baker(AI client) => this.client = client;
+
+    public Cooking state => bake < 80  ? Cooking.Raw :
+                            bake < 120 ? Cooking.Cooked :
+                                         Cooking.Burned;
 
     public Cost Bake(){
         bake += (temperature / 2); return true;
@@ -29,23 +32,21 @@ namespace Activ.GOAP{
         return true;
     }
 
-    Func<Cost>[] Agent.Actions()
-    => state != Cooking.Burned ? new Func<Cost>[]{ Bake } : null;
+    Option[] Agent.Options()
+    => state != Cooking.Burned ? new Option[]{ Bake } : null;
 
-    Complex[] Parametric.Functions()
+    (Option, Action)[] Mapped.Options()
     => state != Cooking.Burned ? CookingOptions() : null;
 
-    // TODO - very slow. Doesn't matter
-    Complex[] CookingOptions(){
-        List<Complex> elems = new List<Complex>();
-        for(int i = 0; i <= MaxHeat; i += Step){
-            var j = i;  // Do not capture the iterator!
-            elems.Add(new Complex(
-                () => SetTemperature(j),
-                () => client.SetTemperature(j)
-            ));
+    (Option, Action)[] CookingOptions(){
+        var n = MaxHeat/Step + 1;
+        options = options ?? new (Option, Action)[n];
+        for(int i = 0; i < n; i++){
+            var t = i * Step;  // do not capture the iterator!
+            options[i] = (() => SetTemperature(t),
+                          () => client.SetTemperature(t));
         }
-        return elems.ToArray();
+        return options;
     }
 
     override public bool Equals(object other){

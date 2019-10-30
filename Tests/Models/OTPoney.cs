@@ -11,7 +11,7 @@ namespace Activ.GOAP{
 
     public Cost OneTrick() => true;
 
-    Func<Cost>[] Agent.Actions() => new Func<Cost>[]{ OneTrick };
+    Option[] Agent.Options() => new Option[]{ OneTrick };
 
     override public bool Equals(object that)
     => that != null && that is OTPoney;

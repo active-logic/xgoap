@@ -4,13 +4,13 @@ namespace Activ.GOAP{
 public class Node<T> : Base{
 
     public readonly Node<T>    prev;
-    public readonly Func<Cost> source;
+    public readonly Option source;
     public readonly T          state;
     public float value;
     public float cost{ get; private set; }
     readonly object  effect;
 
-    public Node(Func<Cost> planningAction, T result,
+    public Node(Option planningAction, T result,
                 Node<T> prev = null, float   cost = 0f){
         this.source = Assert(planningAction, "Action");;
         this.state  = Assert(result, "Result");

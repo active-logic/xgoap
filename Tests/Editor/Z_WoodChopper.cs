@@ -5,11 +5,10 @@ public class Z_WoodChopper : TestBase{
 
     [Test] public void Test(){
         var chopper = new WoodChopper();
-        var solver = new Solver<WoodChopper>();
-        var action = (string)solver.Next(
-            chopper,
-            new Goal<WoodChopper>(x => x.hasFirewood));
-        o(action, "GetAxe");
+        var solver  = new Solver<WoodChopper>();
+        var action  = solver.Next(
+                      chopper, goal: (x => x.hasFirewood, h: null));
+        o((string)action, "GetAxe");
     }
 
 }}

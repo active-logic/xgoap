@@ -2,12 +2,14 @@ using System;
 
 namespace Activ.GOAP{
 
+public delegate Cost Option();
+
 public interface Agent{
-    Func<Cost>[] Actions();
+    Option[] Options();
 }
 
-public interface Parametric{
-    Complex[] Functions();
+public interface Mapped{
+    (Option option, Action action)[] Options();
 }
 
 public interface Clonable<T>{

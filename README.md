@@ -43,15 +43,13 @@ A woodcutter has the *GetAxe*, *ChopLog* and *CollectBranches* actions. Here is 
 ```cs
 using Activ.GOAP;
 
-[Serializable]  // Helps cloning model state (or implement `Clonable`)
-public class WoodChopper : Agent{
+public class WoodChopper : Agent, Clonable<WoodChopper>{
 
     public bool hasAxe, hasFirewood;
+    Option[] opt;  // Caching reduces array alloc overheads
 
-    // In production, cache your action list(s) to avoid GC overheads
-    public Func<Cost>[] Actions() => new Func<Cost>[]{
-        ChopLog, GetAxe, CollectBranches
-    };
+    public Option[] Options()
+    => opt = opt ?? new Option[]{ ChopLog, GetAxe, CollectBranches };
 
     public Cost GetAxe(){
         if(hasAxe) return false;
@@ -59,30 +57,27 @@ public class WoodChopper : Agent{
         return 2;
     }
 
-    public bool ChopLog(){
-        if(!hasAxe) return false;
-        hasFirewood = true;
-        return 4;
+    public Cost ChopLog() => hasAxe ? (Cost)(hasFirewood = true, 4f) : (Cost)false;
+
+    public Cost CollectBranches() => (hasFirewood = true, 8);
+
+    // Clonable<WoodChopper>
+
+    public WoodChopper Allocate() => new WoodChopper();
+
+    public WoodChopper Clone(WoodChopper x){
+        x.hasAxe      = hasAxe;
+        x.hasFirewood = hasFirewood;
+        return x;
     }
 
-    // Expression-bodied shorthands are supported
-    public bool CollectBranches() => (hasFirewood = true, 8);
+    // Override for correctness (don't compare refs) and faster hashes
 
-    // Needed to avoid reentering previously visited states while searching
-    override public bool Equals(object other){
-        if(other == null) return false;
-        if(other is WoodChopper that){
-            return this.hasAxe == that.hasAxe
-                && this.hasFirewood == that.hasFirewood;
-        } else return false;
-    }
+    override public bool Equals(object other) => other is WoodChopper that
+        && hasAxe == that.hasAxe && hasFirewood == that.hasFirewood;
 
-    // Helps quickly finding duplicate states
-    override public int GetHashCode()
-    => (hasAxe ? 1 : 0) + (hasFirewood ? 2 : 0);
-
-    override public string ToString()
-    => $"WoodChopper[axe:{hasAxe} f.wood:{hasFirewood} ]";
+    override public int GetHashCode() => (hasAxe ? 1 : 0)
+                                       + (hasFirewood ? 2 : 0);
 
 }
 ```
@@ -92,14 +87,14 @@ Run the model and get the next planned action:
 ```cs
 var chopper = new WoodChopper();
 var solver  = new Solver<WoodChopper>();
-var next    = solver.Next(chopper, new Goal<WoodChopper>(x => x.hasFirewood));
+var next    = solver.Next(chopper, goal: (x => x.hasFirewood, null));
 ```
 
 Parametric actions are supported; they are concise and type safe. Check the [Baker](Tests/Models/Baker.cs) example.
 
-The goal argument (here, `x => x.hasFirewood`) returns a `bool` to indicate whether the goal has been reached.
-
 Quick and simple Unity integration via [GameAI.cs](Runtime/GameAI.cs) - for details, [read here](Documentation/BakerUnity.md).
+
+Ready to GOAP?, [follow the guide](Documentation/Overview.md)
 
 ## Getting involved
 

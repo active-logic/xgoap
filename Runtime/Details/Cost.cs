@@ -1,12 +1,11 @@
 using System;
 using ArgEx = System.ArgumentException;
+using static Activ.GOAP.Strings;
 
 namespace Activ.GOAP{
 // Note: in general cost values not strictly positive are unsafe;
 // however this isn't checked here since it depends on the solver
 public readonly struct Cost{
-
-    const string CostRangeErr = "Cost must be strictly positive";
 
     public readonly bool done;
     public readonly float cost;
@@ -19,8 +18,7 @@ public readonly struct Cost{
     public static implicit operator Cost(float cost)
     => new Cost(true, cost);
 
-    public static implicit operator Cost(ValueTuple<object, float> t){
-        return new Cost(true, t.Item2);
-    }
+    public static implicit operator Cost((object, float cost) t)
+    => new Cost(true, t.cost);
 
 }}

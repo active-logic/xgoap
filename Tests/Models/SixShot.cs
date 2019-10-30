@@ -13,8 +13,8 @@ namespace Activ.GOAP{
         return true;
     }
 
-    Func<Cost>[] Agent.Actions()
-    => shots<=0 ? null : new Func<Cost>[]{ Shoot };
+    Option[] Agent.Options()
+    => shots<=0 ? null : new Option[]{ Shoot };
 
     override public int GetHashCode() => shots;
 

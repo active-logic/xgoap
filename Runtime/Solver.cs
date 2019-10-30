@@ -22,14 +22,14 @@ public class Solver<T> : SolverStats where T : class{
 
     public bool isRunning => status == S.Running;
 
-    public Node<T> Next(T s, in Goal<T> g, int iter=-1){
+    public Node<T> Next(T s, in Goal<T> goal, int iter=-1){
         if(s == null) throw new NullRef(NO_INIT_ERR);
         dish = dish ?? Dish<T>.Create(s, safe);
         initialState = s;
-        goal         = g;
+        this.goal    = goal;
         I            = 0;
-        avail        = new NodeSet<T>(s, g.h, !brfs, maxNodes,
-                                                     tolerance);
+        avail        = new NodeSet<T>(s, goal.h, !brfs, maxNodes,
+                                                        tolerance);
         return Iterate(iter);
     }
 
@@ -60,7 +60,7 @@ public class Solver<T> : SolverStats where T : class{
 
     void ExpandActions(Node<T> x, NodeSet<T> @out){
         if(!(x.state is Agent p)) return;
-        var actions = p.Actions();
+        var actions = p.Options();
         var count = actions?.Length ?? 0;
         if(count == 0) return;
         dish.Init(x.state);
@@ -68,7 +68,7 @@ public class Solver<T> : SolverStats where T : class{
         for(int i = 0; i < count; i++){
             y = dish.Avail();
             var q = y as Agent;
-            var r = q.Actions()[i]();
+            var r = q.Options()[i]();
             if(r.done){
                 dish.Invalidate();
                 if(!brfs && (r.cost<=0)) throw new Ex(ZERO_COST_ERR);
@@ -78,21 +78,23 @@ public class Solver<T> : SolverStats where T : class{
         }
     }
 
+    // TODO: following current conventions should probably be
+    // expandMappedOptions
     void ExpandMethods(Node<T> x, NodeSet<T> @out){
-        if(!(x.state is Parametric p)) return;
-        var count = p.Functions()?.Length ?? 0;
+        if(!(x.state is Mapped p)) return;
+        var count = p.Options()?.Length ?? 0;
         if(count == 0) return;
         dish.Init(x.state);
         T y = null;
         for(int i = 0; i < count; i++){
             y = dish.Avail();
-            var q = y as Parametric;
-            var r = q.Functions()[i].action();
+            var q = y as Mapped;
+            var r = q.Options()[i].option();
             if(r.done){
                 dish.Invalidate();
                 if(!brfs && r.cost <= 0)
                     throw new Ex(ZERO_COST_ERR);
-                var effect = p.Functions()[i].effect;
+                var effect = p.Options()[i].action;
                 if(@out.Insert(new Node<T>(effect, y, x, r.cost)))
                     dish.Consume();
             }

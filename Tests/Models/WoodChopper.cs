@@ -1,13 +1,10 @@
 using System;
 
 namespace Activ.GOAP{
-[Serializable] public class WoodChopper : Agent{
+public class WoodChopper : Agent, Clonable<WoodChopper>{
 
     public bool hasAxe, hasFirewood;
-
-    public Func<Cost>[] Actions() => new Func<Cost>[]{
-        ChopLog, GetAxe, CollectBranches
-    };
+    Option[] opt;
 
     public Cost GetAxe(){
         if(hasAxe) return false;
@@ -20,13 +17,20 @@ namespace Activ.GOAP{
 
     public Cost CollectBranches() => (hasFirewood = true, 8);
 
-    override public bool Equals(object other){
-        if(other == null) return false;
-        if(other is WoodChopper that){
-            return this.hasAxe == that.hasAxe
-                && this.hasFirewood == that.hasFirewood;
-        } else return false;
+    public Option[] Options()
+    => opt = opt ?? new Option[]{ChopLog, GetAxe, CollectBranches};
+
+    public WoodChopper Allocate() => new WoodChopper();
+
+    public WoodChopper Clone(WoodChopper x){
+        x.hasAxe      = hasAxe;
+        x.hasFirewood = hasFirewood;
+        return x;
     }
+
+    override public bool Equals(object other)
+    => other is WoodChopper that
+       && hasAxe == that.hasAxe && hasFirewood == that.hasFirewood;
 
     override public int GetHashCode()
     => (hasAxe ? 1 : 0) + (hasFirewood ? 2 : 0);

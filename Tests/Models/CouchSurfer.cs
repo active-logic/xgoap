@@ -6,7 +6,7 @@ namespace Activ.GOAP{
 
     public Cost Sleep() => 0;
 
-    Func<Cost>[] Agent.Actions() => new Func<Cost>[]{ Sleep };
+    Option[] Agent.Options() => new Option[]{ Sleep };
 
     override public bool Equals(object that)
     => that != null && that is CouchSurfer;

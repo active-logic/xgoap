@@ -8,13 +8,13 @@ public class NodeSet<T> : Base{
     float          precision = 0;
     internal bool  sorted;
     int            capacity;
-    Func<T, float> h;
+    Heuristic<T>   h;
     HashSet<T>     states = new HashSet<T>();
     List<Node<T>>  list   = new List<Node<T>>();
 
-    public NodeSet(T x, Func<T, float> h, bool sorted  = true,
-                                          int  capacity = 128,
-                                          float precision = 0){
+    public NodeSet(T x, Heuristic<T> h, bool sorted  = true,
+                                        int  capacity = 128,
+                                        float precision = 0){
         this.h = h;
         this.sorted    = sorted;
         this.capacity  = capacity;
