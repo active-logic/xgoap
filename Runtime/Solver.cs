@@ -26,7 +26,7 @@ public class Solver<T> : SolverStats where T : class{
         dish = dish ?? Dish<T>.Create(s, safe);
         initialState = s;
         this.goal    = goal;
-        iteration            = 0;
+        iteration    = 0;
         avail        = new NodeSet<T>(s, goal.h, !brfs, maxNodes,
                                                         tolerance);
         return Iterate(cap);
@@ -51,8 +51,8 @@ public class Solver<T> : SolverStats where T : class{
             status = S.CapacityExceeded;
         }else{
             status = avail
-                ? (iteration < maxIter ? S.Running : S.MaxIterExceeded)
-                : S.Failed;
+            ? (iteration < maxIter ? S.Running : S.MaxIterExceeded)
+            : S.Failed;
         }
         return null;
     }
