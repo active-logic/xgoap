@@ -231,5 +231,5 @@ Leaving this number to zero forces a full ordering, which significantly slows do
 I (the author of this library) hope the information in this guide was helpful to you; if you'd like to report inaccuracies, bugs, or features, please open an issue!
 
 If you need more help:
-- Ask in the (Unity3D forum thread)[https://forum.unity.com/threads/a-goap-goal-oriented-action-planning-library-beyond-goap.763478/]
-- For business inquiries, [contact the author](mailto:tea.desouza@gmail.com)
+- Ask in the [Unity3D forum thread](https://forum.unity.com/threads/a-goap-goal-oriented-action-planning-library-beyond-goap.763478/).
+- For professional inquiries, [contact the author](mailto:tea.desouza@gmail.com).
