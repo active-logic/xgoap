@@ -12,39 +12,34 @@ public class NodeSet<T> : Base{
     HashSet<T>     states = new HashSet<T>();
     List<Node<T>>  list   = new List<Node<T>>();
 
-    public NodeSet(T x, Heuristic<T> h, bool sorted  = true,
-                                        int  capacity = 128,
-                                        float precision = 0){
+    public NodeSet(){}
+
+    public NodeSet<T> Init(T x, Heuristic<T> h, bool sorted  = true,
+                                                int  capacity = 128,
+                                                float precision = 0){
+        if(visited > 0 || count > 0)
+            throw new Exception("Clear NodeSet first");
         this.h = h;
         this.sorted    = sorted;
         this.capacity  = capacity;
         this.precision = precision;
         states.Add(Assert(x, "Initial state"));
         list.Add(new Node<T>(INITIAL_STATE, x));
+        return this;
     }
-
-    public bool capacityExceeded => count > capacity;
 
     public static implicit operator bool(NodeSet<T> self)
     => self.count > 0 && self.count <= self.capacity;
 
-    internal int count => list.Count;
+    public bool capacityExceeded => count > capacity;
+    public int  visited          => states.Count;
+    public int  count            => list.Count;
 
     public bool Insert(Node<T> n){
         if(!states.Add(n.state)) return false;
         if(sorted){
             n.value = n.cost + (h != null ? h(n.state) : 0);
             if(precision > 0) n.value = (int)(n.value / precision);
-            // NOTE: In actual use, tested 4x faster than SortedSet;
-            //  Likely bottleneck with SortedSet is the API, not the
-            // algorithm; SortedSet needs total, ordering:
-            // - a.CompareTo(a) == 0
-            // - a.CompareTo(b) must positive if b.CompareTo(a) is
-            // negative.
-            // Superficially these rules are sound. In practice to
-            // just order elements by cost, this is overkill.
-            // Also getting Min/Max item is cheap, but there's no way
-            // to combine this with a 'pop'
             for(int i = list.Count-1; i >= 0; i--){
                 if(n.value <= list[i].value){
                     list.Insert(i + 1, n);
@@ -55,8 +50,12 @@ public class NodeSet<T> : Base{
     }
 
     public Node<T> Pop(){
-        int i = list.Count-1; var n = list[i]; list.RemoveAt(i);
+        int i = list.Count-1;
+        var n = list[i];
+        list.RemoveAt(i);
         return n;
     }
+
+    public void Clear(){ states.Clear(); list.Clear(); }
 
 }}

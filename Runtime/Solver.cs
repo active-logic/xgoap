@@ -17,7 +17,7 @@ public class Solver<T> : SolverStats where T : class{
     T           initialState;
     Dish<T>     dish;
     Goal<T>     goal;
-    NodeSet<T>  avail = null;
+    NodeSet<T>  avail = new NodeSet<T>();
 
     public bool isRunning => status == S.Running;
 
@@ -27,8 +27,7 @@ public class Solver<T> : SolverStats where T : class{
         initialState = s;
         this.goal    = goal;
         iteration    = 0;
-        avail        = new NodeSet<T>(s, goal.h, !brfs, maxNodes,
-                                                        tolerance);
+        avail.Init(s, goal.h, !brfs, maxNodes, tolerance);
         return Iterate(cap);
     }
 
@@ -41,19 +40,18 @@ public class Solver<T> : SolverStats where T : class{
             var current = avail.Pop();
             if(goal.match(current.state)){
                 status = S.Done;
+                avail.Clear();
                 return current;
             }
             ExpandActions(current, avail);
             ExpandMethods(current, avail);
             if(avail.count > peak) peak = avail.count;
         }
-        if(avail.capacityExceeded){
-            status = S.CapacityExceeded;
-        }else{
-            status = avail
+        status = avail.capacityExceeded ? S.CapacityExceeded
+        : status = avail
             ? (iteration < maxIter ? S.Running : S.MaxIterExceeded)
             : S.Failed;
-        }
+        if(status != S.Running) avail.Clear();
         return null;
     }
 
