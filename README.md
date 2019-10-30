@@ -94,7 +94,7 @@ Parametric actions are supported; they are concise and type safe. Check the [Bak
 
 Quick and simple Unity integration via [GameAI.cs](Runtime/GameAI.cs) - for details, [read here](Documentation/BakerUnity.md).
 
-Ready to GOAP?, [follow the guide](Documentation/Overview.md)
+Ready to GOAP? [follow the guide](Documentation/Overview.md).
 
 ## Getting involved
 
