@@ -6,7 +6,7 @@ namespace Activ.GOAP{
 public interface SolverStats{
 
     PlanningState status { get; }
-    int  fxMaxNodes      { get; }
+    int  peak      { get; }
     int  I               { get; }
 
 }

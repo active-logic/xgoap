@@ -12,8 +12,7 @@ public class Solver<T> : SolverStats where T : class{
     public float tolerance;
     public bool  brfs, safe = true;
     public PlanningState status { get; private set; }
-    // TODO terrible name
-    public int  fxMaxNodes      { get; private set; }
+    public int  peak            { get; private set; }
     public int  I               { get; private set; }
     T           initialState;
     Dish<T>     dish;
@@ -46,7 +45,7 @@ public class Solver<T> : SolverStats where T : class{
             }
             ExpandActions(current, avail);
             ExpandMethods(current, avail);
-            if(avail.count > fxMaxNodes) fxMaxNodes = avail.count;
+            if(avail.count > peak) peak = avail.count;
         }
         if(avail.capacityExceeded){
             status = S.CapacityExceeded;
