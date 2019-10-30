@@ -7,7 +7,7 @@ public interface SolverStats{
 
     PlanningState status { get; }
     int  peak      { get; }
-    int  I               { get; }
+    int  iteration { get; }
 
 }
 

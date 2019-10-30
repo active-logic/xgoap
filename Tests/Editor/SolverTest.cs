@@ -43,12 +43,12 @@ public class SolverTest : TestBase{
     }
 
     [Test] public void IsRunning_true_with_zero_frames_budget(){
-        var z = x.Next(new Idler(), unreachable, iter: 0);
+        var z = x.Next(new Idler(), unreachable, cap: 0);
         o( x.isRunning, true);
     }
 
     [Test] public void IsRunning_true_with_remaining_frames(){
-        var z = x.Next(new Inc(), unreachable, iter: 1);
+        var z = x.Next(new Inc(), unreachable, cap: 1);
         o( x.isRunning, true);
     }
 

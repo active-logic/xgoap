@@ -13,7 +13,7 @@ public class Solver<T> : SolverStats where T : class{
     public bool  brfs, safe = true;
     public PlanningState status { get; private set; }
     public int  peak            { get; private set; }
-    public int  I               { get; private set; }
+    public int  iteration               { get; private set; }
     T           initialState;
     Dish<T>     dish;
     Goal<T>     goal;
@@ -21,23 +21,23 @@ public class Solver<T> : SolverStats where T : class{
 
     public bool isRunning => status == S.Running;
 
-    public Node<T> Next(T s, in Goal<T> goal, int iter=-1){
+    public Node<T> Next(T s, in Goal<T> goal, int cap=-1){
         if(s == null) throw new NullRef(NO_INIT_ERR);
         dish = dish ?? Dish<T>.Create(s, safe);
         initialState = s;
         this.goal    = goal;
-        I            = 0;
+        iteration            = 0;
         avail        = new NodeSet<T>(s, goal.h, !brfs, maxNodes,
                                                         tolerance);
-        return Iterate(iter);
+        return Iterate(cap);
     }
 
-    public Node<T> Iterate(int iter=-1){
+    public Node<T> Iterate(int cap=-1){
         if(initialState == null) throw new InvOp(NO_INIT_ERR);
         if(status == S.MaxIterExceeded) return null;
-        if(iter == -1) iter = maxIter;
+        if(cap == -1) cap = maxIter;
         int i = 0;
-        while(avail && i++ < iter && I++ < maxIter){
+        while(avail && i++ < cap && iteration++ < maxIter){
             var current = avail.Pop();
             if(goal.match(current.state)){
                 status = S.Done;
@@ -51,7 +51,7 @@ public class Solver<T> : SolverStats where T : class{
             status = S.CapacityExceeded;
         }else{
             status = avail
-                ? (I < maxIter ? S.Running : S.MaxIterExceeded)
+                ? (iteration < maxIter ? S.Running : S.MaxIterExceeded)
                 : S.Failed;
         }
         return null;
