@@ -15,6 +15,9 @@ public readonly struct Cost{
     public static implicit operator Cost(bool flag)
     => new Cost(flag, 1);
 
+    public static implicit operator Cost(int cost)
+    => new Cost(true, cost);
+
     public static implicit operator Cost(float cost)
     => new Cost(true, cost);
 
