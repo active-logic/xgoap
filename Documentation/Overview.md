@@ -218,6 +218,7 @@ Once you have implemented your `GameAI` subclass, it can be added to any game ob
 Additionally, tweaks are available...
 
 - *verbose* - gives you basic information (in the console) about what actions are applied to the game AI
+- *cooldown* - when non zero and assuming all goals have been tried unsuccessfully, apply a delay before re-iterating (only in *Unity3D*)
 
 Then, under 'solver params':
 

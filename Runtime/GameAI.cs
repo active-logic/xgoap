@@ -5,6 +5,7 @@ using S = Activ.GOAP.PlanningState;
 namespace Activ.GOAP{  // See also Runtime/Unity/GameAI.cs)
 public abstract partial class GameAI<T> : SolverOwner
                                                    where T : class {
+    public float         cooldown;
     public bool          verbose;
     public Solver<T>     solver;
     public SolverParams  config   = new SolverParams();
@@ -44,7 +45,14 @@ public abstract partial class GameAI<T> : SolverOwner
         switch(solver.status){
         case S.Done:    index = 0; break;
         case S.Running: throw new System.Exception("Invalid");
-        default:        index = (index + 1) % goals.Length; break;
+        default:
+            index = (index + 1);
+            if(index >= goals.Length){
+                index = 0;
+                #if UNITY_2018_1_OR_NEWER
+                Cooldown();
+                #endif
+            } break;
         }
         return goals[index];
     }
