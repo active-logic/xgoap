@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System;
+using System.ComponentModel;
 using Activ.GOAP.Test;
 using S = Activ.GOAP.PlanningState;
 
@@ -7,6 +8,7 @@ namespace Activ.GOAP{
 public class GameAITest : TestBase{
 
     AI x;
+    PlanningState status;
 
     [SetUp] public void Setup(){
         #if UNITY_2018_1_OR_NEWER
@@ -41,6 +43,19 @@ public class GameAITest : TestBase{
         x.Update();
         o( x.status, S.Done );
         o( x.goal, g1 );
+    }
+
+    [Test] public void HandleStatusChange(){
+        x.PropertyChanged += OnChange;
+        x.goals = new Goal<Model>[]{ (s => false, null) };
+        o( status, PlanningState.Done);
+        x.Update();
+        o( status, PlanningState.Failed);
+    }
+
+    void OnChange(object sender, PropertyChangedEventArgs e){
+        if(e.PropertyName is "status")
+            status = ((AI)sender).status;
     }
 
 }}

@@ -1,16 +1,21 @@
 using System;
+using System.ComponentModel;
 using static Activ.GOAP.Util;
 using S = Activ.GOAP.PlanningState;
 
 namespace Activ.GOAP{  // See also Runtime/Unity/GameAI.cs)
-public abstract partial class GameAI<T> : SolverOwner
-                                                   where T : class {
+public abstract partial class GameAI<T>
+             : SolverOwner, INotifyPropertyChanged where T : class {
+
+    public event PropertyChangedEventHandler PropertyChanged;
+    //
     public float         cooldown;
     public bool          verbose;
     public Solver<T>     solver;
     public SolverParams  config   = new SolverParams();
     public Handlers      policies = new Handlers();
     public ActionHandler handler  = new ActionMap();
+    //
     int index = 0;
     Goal<T>[] goals;
 
@@ -25,11 +30,13 @@ public abstract partial class GameAI<T> : SolverOwner
 
     public virtual void Update(){
         solver = solver ?? new Solver<T>();
-        if(policies.Block(solver.status) || IsActing()) return;
+        if(policies.Block(status) || IsActing()) return;
+        var s    = status;
         var next = (solver.status != S.Running) ? StartSolving()
                    : solver.Iterate(config.frameBudget);
         if(next != null) handler.Effect(next.Head(), this);
-        policies.OnResult(solver.status, ObjectName(this));
+        policies.OnResult(status, ObjectName(this));
+        if(s != status) NotifyPropertyChanged(nameof(status));
     }
 
     Node<T> StartSolving(){
@@ -42,7 +49,7 @@ public abstract partial class GameAI<T> : SolverOwner
 
     Goal<T> NextGoal(){
         goals = Goals();
-        switch(solver.status){
+        switch(status){
         case S.Done:    index = 0; break;
         case S.Running: throw new System.Exception("Invalid");
         default:
@@ -56,5 +63,8 @@ public abstract partial class GameAI<T> : SolverOwner
         }
         return goals[index];
     }
+
+    void NotifyPropertyChanged(String p) => PropertyChanged?
+        .Invoke(this, new PropertyChangedEventArgs(p));
 
 }}

@@ -229,6 +229,30 @@ Then, under 'solver params':
 Leaving this number to zero forces a full ordering, which significantly slows down the planner; but if you set this too high, you weaken the heuristic (which is also slower!) so there's no point in cranking it up.
 - *Safe* - If your actions are cleanly implemented, a failing action won't mutate model state; then, uncheck this and get a small performance bonus. If unsure, leave unchecked.
 
+## Customize/monitor solver behavior
+
+Whenever the status of the solver changes, you can inspect the new status; example:
+
+```cs
+using System.ComponentModel;
+using Activ.GOAP;
+
+class MyStatusHandler{
+
+    GameAI<T> ai;
+
+    public void Register() => ai.PropertyChanged += OnChange;
+
+    void OnChange(object sender, PropertyChangedEventArgs e){
+        if(e.PropertyName is "status"){
+            PlanningState s = ((AI)sender).status;
+            // Check value of 's' and do something...
+        }
+    }
+
+}
+```
+
 ## Good luck!
 
 I (the author of this library) hope the information in this guide was helpful to you; if you'd like to report inaccuracies, bugs, or features, please open an issue!
