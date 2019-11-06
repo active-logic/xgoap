@@ -173,14 +173,16 @@ To use the integration, subclass `GameAI`, as explained below.
 - (optionally) implement an `Idle()` mode.
 - Implement `IsActing()` to indicate when the actor are available for planning.
 
-The `Goal()` method (assume `x` of type `T`):
+The `Goals()` method (assume `x` of type `T`):
 
 ```cs
-override public Goal<T> Goal() => (
+override public Goal<T> Goals() => new Goal<T>[]{(
     x => cond,     // such as `x.someValue == true`
     x => heuristic // such as `x.DistTo(x.target)` or null if unavailable
-);
+)};
 ```
+
+You may specify several goals with decreasing priority.
 
 Your implementation of `T Model()` should return an object representing the current state of the agent and their environment:
 

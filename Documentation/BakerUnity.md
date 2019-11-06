@@ -11,8 +11,8 @@ public class BakerAI : GameAI<Baker>, Baker.AI{ }
 We implement `Goal<T> Goal()` and `T Model()`; since we do not have a heuristic for the goal, only the goal condition is provided.
 
 ```cs
-override public Goal<Baker> Goal()
-=> new Goal<Baker>( x => x.state == Baker.Cooking.Cooked );
+override public Goal<Baker>[] Goals()
+=> new Goal<Baker>[]{( x => x.state == Baker.Cooking.Cooked, null )};
 ```
 
 Now let's provide the model:
