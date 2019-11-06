@@ -7,4 +7,12 @@ namespace Activ.GOAP{
     public float tolerance   = 0;
     public bool  safe        = true;
 
+    public void Reset<T>(Solver<T> solver) where T : class{
+        solver.maxNodes  = maxNodes;
+        solver.maxIter   = maxIter;
+        solver.tolerance = tolerance;
+        solver.safe      = safe;
+        solver.Reset();
+    }
+
 }}

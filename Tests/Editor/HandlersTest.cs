@@ -30,7 +30,8 @@ public class HandlersTest : TestBase{
                 break;
         }
         #endif
-        o( x.OnResult(s), Handlers.NoAction );
+        x.OnResult(s);
+        o( x.Block(s), s == S.MaxIterExceeded || s == S.CapacityExceeded );
     }
 
     [Test] public void RestartCases(
@@ -40,14 +41,16 @@ public class HandlersTest : TestBase{
     {
         x.warnOnFail = warnOnFail;
         x.warnOnOverflow = warnOnOverflow;
-        o( x.OnResult(s), Handlers.Restart );
+        o( x.Block(s), false );
+        //o( x.OnResult(s), Handlers.Restart );
     }
 
     [Test] public void StopOnFailPolicy(
         [Values(true, false)] bool warnOnFail){
         x.warnOnFail = warnOnFail;
         x.OnFail     = Handlers.Policy.Stop;
-        o( x.OnResult(S.Failed), Handlers.NoAction );
+        o( x.Block(S.Failed), false );
+        //o( x.OnResult(S.Failed), Handlers.NoAction );
     }
 
 }}

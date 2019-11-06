@@ -18,6 +18,9 @@ public class SolverTest : TestBase{
         x.maxIter = x.maxNodes = 100;
     }
 
+    [Test] public void InitialStatus()
+    => o(x.status, PlanningState.Done);
+
     // Defaults ----------------------------------------------------
 
     // Important because tolerance > 0 may affect search result

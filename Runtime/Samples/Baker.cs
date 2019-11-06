@@ -1,8 +1,7 @@
 using System;
-//using System.Collections.Generic;
-//using UnityEngine;
+using Activ.GOAP;
 
-namespace Activ.GOAP{
+namespace Activ.GOAP.Test{
 [Serializable] public class Baker : Agent, Mapped{
 
     public enum Cooking{Raw, Cooked, Burned}

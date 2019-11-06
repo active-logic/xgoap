@@ -13,7 +13,7 @@ public class Solver<T> : SolverStats where T : class{
     public bool  brfs, safe = true;
     public PlanningState status { get; private set; }
     public int  peak            { get; private set; }
-    public int  iteration               { get; private set; }
+    public int  iteration       { get; private set; }
     T           initialState;
     Dish<T>     dish;
     Goal<T>     goal;
@@ -54,6 +54,8 @@ public class Solver<T> : SolverStats where T : class{
         if(status != S.Running) avail.Clear();
         return null;
     }
+
+    public void Reset(){ avail.Clear(); status = S.Done; }
 
     void ExpandActions(Node<T> x, NodeSet<T> @out){
         if(!(x.state is Agent p)) return;

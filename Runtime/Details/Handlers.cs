@@ -19,27 +19,38 @@ namespace Activ.GOAP{
 
     public enum Policy{ Stop, Restart, Err }
 
-    public bool OnResult(S s, string c = null){
+    public bool Block(S s){
         switch(s){
         case S.Failed:
-            return Do(s, c, OnFail, warnOnFail);
+            return OnFail == Policy.Err;
         case S.MaxIterExceeded:
-            return Do(s, c, OnMaxIterOverflow, warnOnOverflow);
+            return OnMaxIterOverflow == Policy.Err;
         case S.CapacityExceeded:
-            return Do(s, c, OnCapacityOverflow, warnOnOverflow);
-        default: return NoAction;
+            return OnCapacityOverflow == Policy.Err;
+        default:
+            return false;
         }
     }
 
-    bool Do(S s, string c, Policy policy, bool warn){
+    public void OnResult(S s, string c = null){
+        switch(s){
+        case S.Failed:
+            Do(s, c, OnFail, warnOnFail);                   break;
+        case S.MaxIterExceeded:
+            Do(s, c, OnMaxIterOverflow, warnOnOverflow);    break;
+        case S.CapacityExceeded:
+            Do(s, c, OnCapacityOverflow, warnOnOverflow);   break;
+        }
+    }
+
+    void Do(S s, string c, Policy policy, bool warn){
         switch(policy){
         case Policy.Stop:
-            if(warn) Warn(s, c); return NoAction;
+            if(warn) Warn(s, c);                            break;
         case Policy.Restart:
-            if(warn) Warn(s, c); return Restart;
+            if(warn) Warn(s, c);                            break;
         default:
-            Err(s, c); return NoAction;
-
+            Err(s, c);                                      break;
         }
     }
 

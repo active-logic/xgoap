@@ -1,11 +1,14 @@
-namespace Activ.GOAP{
+using Activ.GOAP;
+
+namespace Activ.GOAP.Test{
 public class BakerAI : GameAI<Baker>, Baker.AI{
 
     int temperature = 0;
     public float bake;
 
-    override public Goal<Baker> Goal()
-    => new Goal<Baker>( x => x.state == Baker.Cooking.Cooked );
+    override public Goal<Baker>[] Goals()
+    => new Goal<Baker>[]
+    { (x => x.state == Baker.Cooking.Cooked, null) };
 
     override public Baker Model()
     => new Baker(this){ temperature = temperature, bake = bake };
